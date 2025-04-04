@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemesanan Atribut & Merch Bakul Pionir</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/clash-grotesk.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
+
+</head>
+<body>
+    <div class="title">
+        <img src="BAKULPIONIR.png" alt="">
+    </div>
+
+
+
+    <div class="card">
+        <p class="judul-card">Nama Lengkap</p>
+        <input type="text" id="namaInput" class="deskripsi-singkat" placeholder="Masukkan Nama Kamu" required>
+    </div>
+    
+    <div class="card">
+        <p class="judul-card">Nomor Whatsapp</p>
+        <input type="tel" id="nomorInput" class="deskripsi-singkat" placeholder="Masukkan Nomor Whatsapp" required>
+    </div>
+
+    <div class="card">
+        <p class="judul-card">Asal Prodi</p>
+        <div class="dropdown-container">
+            <select id="fakultas" name="fakultas" class="select-dropdown">
+                <option value="" disabled selected>Pilih Fakultas Kamu :D</option>
+                <option value="faperta">Fakultas Pertanian</option>
+                <option value="fkh">Fakultas Kedokteran Hewan</option>
+                <option value="ft">Fakultas Teknik</option>
+                <option value="fisipol">Fakultas Ilmu Sosial dan Ilmu Politik</option>
+                <option value="feb">Fakultas Ekonomika dan Bisnis</option>
+                <option value="fh">Fakultas Hukum</option>
+                <option value="fbs">Fakultas Biologi</option>
+                <option value="farmasi">Fakultas Farmasi</option>
+                <option value="fkkmk">Fakultas Kedokteran, Kesehatan Masyarakat, dan Keperawatan</option>
+                <option value="fsp">Fakultas Psikologi</option>
+                <option value="filsafat">Fakultas Filsafat</option>
+                <option value="fk">Fakultas Kehutanan</option>
+                <option value="fmipa">Fakultas Matematika dan Ilmu Pengetahuan Alam</option>
+                <option value="sv">Sekolah Vokasi</option>
+                <option value="sp">Sekolah Pascasarjana</option>
+            </select>
+        </div>
+    </select>
+        </form>
+    </div>
+
+    <div class="card">
+        <p class="judul-card">Domisili (Kota)</p>
+        <input type="text" id="domisiliInput" class="deskripsi-singkat" placeholder="Masukkan Domisili Anda" required>
+    </div>
+
+    <div class="card">
+        <p>Pilih produk yang ingin dipesan (bisa pilih lebih dari satu):  </p>
+        <div class="checkbox-container-carde">
+            <div class="carde">
+                <img src="bakul.png" alt="Atribut 1">
+                <label for="atribut1">Atribut 1</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="atribut1" name="produk" value="atribut1">
+                </div>
+            </div>
+            <div class="carde">
+                <img src="bakul.png" alt="Atribut 2">
+                <label for="atribut2">Atribut 2</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="atribut2" name="produk" value="atribut2">
+                </div>
+            </div>
+            <div class="carde">
+                <img src="bakul.png" alt="Atribut 3">
+                <label for="atribut3">Atribut 3</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="atribut3" name="produk" value="atribut3">
+                </div>
+            </div>
+            <div class="carde">
+                <img src="bakul.png" alt="Atribut 3">
+                <label for="atribut3">Atribut 3</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="atribut3" name="produk" value="atribut3">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <p class="judul-card">Upload Bukti Pembayaran</p>
+        <p class="isi-card">Format file yang diizinkan: jpg, png, jpeg. Ukuran maksimal 2MB.</p>
+        <p class="isi-card">
+            📌 <strong>Informasi Pembayaran</strong><br><br>
+
+            🏦 <strong>Bank: BNI</strong><br>
+            💳 Nomor Rekening: <strong>1130388177</strong><br>
+            👤 Atas Nama: <strong>Karina Damayora</strong><br><br>
+
+            🏦 <strong>Bank: Gopay</strong><br>
+            💳 Nomor Gopay: <strong>081391675760</strong><br>
+            👤 Atas Nama: <strong>Bagas S</strong><br><br>
+
+            🔹 <strong>Jumlah Transfer:</strong><br>
+            Harap tambahkan <strong>001 rupiah</strong> pada total pembayaran.<br><br>
+
+            Contoh:<br>
+            Jika totalnya Rp 41.000, maka transfer Rp <strong>41.001</strong><br>
+            Jika totalnya Rp 23.000, maka transfer Rp <strong>23.001</strong><br><br>
+
+            📤 <strong>Bukti Transfer:</strong><br>
+            Unggah bukti transfer dengan format:<br>
+            <strong>Nama_Pembelian</strong><br><br>
+
+            Contoh:<br>
+            ✅ Zidan_Bundling Kroco<br><br>
+
+            Pastikan jumlah yang ditransfer sesuai agar pembayaran dapat diverifikasi dengan cepat. ✅
+        </p>
+        <input type="file" id="buktiBayarInput" class="input-file" accept="image/*" required>
+    </div>
+
+    <div class="card" id="submitCard" onclick="submitForm()" style="cursor: pointer; text-align: center; background-color: #ffcc00; padding: 15px; font-weight: bold;">
+        <p>Kirim Pesanan</p>
+    </div>
+
+    <div class="ender">
+        <img src="tesBanner.png" alt="">
+    </div>
+
+    <div id="errorPopup" class="popup-error">
+        <p id="errorMessage">Harap isi semua data dan unggah bukti pembayaran.</p>
+        <button onclick="closeErrorPopup()">Tutup</button>
+    </div>
+
+    <div id="successPopup" class="popup-success">
+        <p>Pesanan berhasil dikirim!</p>
+        <p>Gabung ke grup WhatsApp untuk info lebih lanjut:</p>
+        <p id="waLink"></p> <!-- Paragraf kosong untuk link WA -->
+        <button onclick="closeSuccessPopup()">Tutup</button>
+    </div>
+
+
+    <script type="module">
+        // Ganti dengan konfigurasi Firebase milikmu
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyCqGTr_7aEWgbV2eZ4XG4qW6GBpZ1xwFhU",
+            authDomain: "bakul-pionir.firebaseapp.com",
+            projectId: "bakul-pionir",
+            storageBucket: "bakul-pionir.firebasestorage.app",
+            messagingSenderId: "472630969608",
+            appId: "1:472630969608:web:835bcb517c264f5392d8bd"
+        };
+
+        // Inisialisasi Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Simpan db ke global agar bisa dipakai di script.js
+        window.db = db;
+        window.doc = doc;
+        window.setDoc = setDoc;
+        window.serverTimestamp = serverTimestamp;
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
