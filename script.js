@@ -8,13 +8,24 @@ function closeErrorPopup() {
 }
 
 function showSuccessPopup(link) {
-    document.getElementById("waLink").innerHTML = `<a href="${link}" target="_blank">Masuk Grup WhatsApp</a>`;
+    document.getElementById("waLink").innerHTML = `<a href="${link}" target="_blank">(WAJIB) Klik Untuk Masuk Grup WhatsApp</a>`;
     document.getElementById("successPopup").style.display = "block";
 }
 
 function closeSuccessPopup() {
     document.getElementById("successPopup").style.display = "none";
 }
+
+function showLoading() {
+    document.getElementById("loadingOverlay").style.display = "flex";
+}
+
+function hideLoading() {
+    document.getElementById("loadingOverlay").style.display = "none";
+}
+
+let selectedProducts = {};
+    
 
 document.addEventListener("DOMContentLoaded", function () {
     const submitCard = document.getElementById("submitCard");
@@ -28,7 +39,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const buktiBayarFile = document.getElementById("buktiBayarInput").files[0];
 
         // Ambil produk yang dipilih
-        const produkDipilih = Array.from(produkCheckboxes).map(checkbox => checkbox.value);
+        const produkDipilih = Object.entries(selectedProducts).map(([nama, detail]) => ({
+            nama,
+            jumlah: detail.quantity,
+        }));  
+        
 
         // Validasi input tidak boleh kosong
         if (!nama || !nomor || !fakultas || !domisili || produkDipilih.length === 0 || !buktiBayarFile) {
@@ -37,12 +52,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
+            showLoading();
             // Upload gambar ke ImgBB
             const buktiBayarURL = await uploadToImgBB(buktiBayarFile);
             if (!buktiBayarURL) throw new Error("Gagal mengunggah gambar!");
 
             // Simpan data pesanan di Firestore
-            const orderRef = window.doc(window.db, "orders", nama + "_" + Date.now());
+            const orderRef = window.doc(window.db, "Batch1test", nama + "_" + Date.now());
             await window.setDoc(orderRef, {
                 nama,
                 nomor,
@@ -52,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 buktiPembayaran: buktiBayarURL,
                 timestamp: window.serverTimestamp()
             });
-
+            hideLoading();
             showSuccessPopup("https://chat.whatsapp.com/HiVQu0FtPKe50p4IaWnoln");
             // Reset form setelah berhasil dikirim
             document.getElementById("namaInput").value = "";
@@ -86,8 +102,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
     const cards = document.querySelectorAll(".card");
 
@@ -116,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ? -5 + Math.random() * 20 
             : -40 + Math.random() * 80; // Left diatur biar geser dikit 
 
-        let randomRotate = -1.2 + Math.random() * 2.4;
+        let randomRotate = -1 + Math.random() * 1;
         let selectedColor = colors[colorIndex];
         colorIndex = (colorIndex + 1) % colors.length;
 
@@ -129,7 +143,27 @@ document.addEventListener("DOMContentLoaded", () => {
         if (title) {
             title.style.color = selectedColor.text;
         }
+        let textbox = card.querySelector(".deskripsi-singkat")
+        if (textbox) {
+            textbox.style.backgroundColor = selectedColor.text;
+        }
+        let selectDropdown = card.querySelector(".select-dropdown")
+        if (selectDropdown) {
+            selectDropdown.style.backgroundColor = selectedColor.text;
+        }
+        let cardes = card.querySelectorAll(".carde");
+        cardes.forEach(carde => {
+            carde.style.backgroundColor = selectedColor.text;
+        });
+        
+        let cardeTexts = card.querySelectorAll(".carde-text");
+        cardeTexts.forEach(text => {
+            text.style.color = selectedColor.bg;
+        });
+        
     });
+
+    
 
     // Tambahin jarak bawah setelah kartu terakhir
     const spacer = document.getElementById("spacer");
@@ -138,10 +172,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll(".carde").forEach(card => {
-        card.addEventListener("click", function() {
-            let checkbox = this.querySelector("input[type='checkbox']");
-            checkbox.checked = !checkbox.checked;
-            this.classList.toggle("selected", checkbox.checked);
+        card.addEventListener("click", function(e) {
+            // Hindari klik pada elemen input (biar gak double toggle)
+            if (e.target.tagName.toLowerCase() === "input") return;
+
+            const checkbox = this.querySelector("input[type='checkbox']");
+            if (checkbox) {
+                checkbox.click(); // Ini akan trigger event 'change'
+            }
         });
     });
 });
@@ -160,3 +198,272 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded - Invoice script starting");
+    
+    // Define products with their prices
+    const products = {
+        "Bundle Sultan Sejati": 85000,
+        "Bundle Paket Lengkap": 46000,
+        "Bundle Stylish": 38000,
+        "Bundle Eksekutif Pionir" : 36000,
+        "Bundle Starter" : 75000,
+        "Bundle Pejuang Hemat" : 28000,
+        "Caping" : 27000,
+        "Lanyard" : 18000,
+        "Dasi" : 14000,
+        "Totebag" : 45000,
+        "Sticker" : 10000
+    };
+    
+    // Initialize selected products object to track selections
+
+    // Get all product checkboxes
+    const bundleSultan = document.getElementById('bundleSultan');
+    const bundleLengkap = document.getElementById('bundleLengkap');
+    const bundleStylish = document.getElementById('bundleStylish');
+    const bundleEksekutif = document.getElementById('bundleEksekutifPionir');
+    const bundleStarter = document.getElementById('bundleStarter');
+    const bundlePejuangHemat = document.getElementById('bundlePejuangHemat');
+    const caping = document.getElementById('caping');
+    const lanyard = document.getElementById('lanyard');
+    const dasi = document.getElementById('dasi');
+    const totebag = document.getElementById('totebag');
+    const sticker = document.getElementById('sticker');
+
+    
+    console.log("Checkboxes found:", bundleSultan, bundleLengkap, bundleStylish, bundleEksekutifPionir);
+    
+    // Add event listeners to checkboxes
+    if (bundleSultan) {
+        bundleSultan.addEventListener('change', function() {
+            console.log("Sultan checkbox changed:", this.checked);
+            handleProductSelection("Bundle Sultan Sejati", this.checked);
+        });
+    }
+    
+    if (bundleLengkap) {
+        bundleLengkap.addEventListener('change', function() {
+            console.log("Lengkap checkbox changed:", this.checked);
+            handleProductSelection("Bundle Paket Lengkap", this.checked);
+        });
+    }
+    
+    if (bundleStylish) {
+        bundleStylish.addEventListener('change', function() {
+            console.log("Stylish checkbox changed:", this.checked);
+            handleProductSelection("Bundle Stylish", this.checked);
+        });
+    }
+    
+    if (bundleEksekutif) {
+        bundleEksekutif.addEventListener('change', function() {
+            console.log("Stylish checkbox changed:", this.checked);
+            handleProductSelection("Bundle Eksekutif Pionir", this.checked);
+        });
+    }
+    if (bundleStarter) {
+        bundleStarter.addEventListener('change', function() {
+            console.log("Stylish checkbox changed:", this.checked);
+            handleProductSelection("Bundle Starter", this.checked);
+        });
+    }
+    if (bundlePejuangHemat) {
+        bundlePejuangHemat.addEventListener('change', function() {
+            console.log("Stylish checkbox changed:", this.checked);
+            handleProductSelection("Bundle Pejuang Hemat", this.checked);
+        });
+    }
+    if (caping) {
+        caping.addEventListener('change', function() {
+            console.log("Stylish checkbox changed:", this.checked);
+            handleProductSelection("Caping", this.checked);
+        });
+    }
+    if (lanyard) {
+        lanyard.addEventListener('change', function() {
+            console.log("Stylish checkbox changed:", this.checked);
+            handleProductSelection("Lanyard", this.checked);
+        });
+    }
+    if (dasi) {
+        dasi.addEventListener('change', function() {
+            console.log("Stylish checkbox changed:", this.checked);
+            handleProductSelection("Dasi", this.checked);
+        });
+    }
+    if (totebag) {
+        totebag.addEventListener('change', function() {
+            console.log("Stylish checkbox changed:", this.checked);
+            handleProductSelection("Totebag", this.checked);
+        });
+    }
+    if (sticker) {
+        sticker.addEventListener('change', function() {
+            console.log("Stylish checkbox changed:", this.checked);
+            handleProductSelection("Sticker", this.checked);
+        });
+    }
+    
+    // Handle product selection/deselection
+    function handleProductSelection(productName, isChecked) {
+        console.log(`Handling product selection: ${productName}, checked: ${isChecked}`);
+        
+        if (isChecked) {
+            // Add product to selected products
+            selectedProducts[productName] = {
+                quantity: 1,
+                price: products[productName]
+            };
+        } else {
+            // Remove product from selected products
+            delete selectedProducts[productName];
+        }
+        
+        // Update invoice
+        updateInvoice();
+    }
+    
+    // Function to update the invoice
+    function updateInvoice() {
+        console.log("Updating invoice, selected products:", selectedProducts);
+        
+        const invoiceItemsDiv = document.getElementById('invoiceItems');
+        const totalBayarSpan = document.getElementById('totalBayar');
+        
+        if (!invoiceItemsDiv || !totalBayarSpan) {
+            console.error("Invoice elements not found!");
+            return;
+        }
+        
+        // Clear current invoice items
+        invoiceItemsDiv.innerHTML = '';
+        
+        if (Object.keys(selectedProducts).length === 0) {
+            // If no products selected, show message
+            invoiceItemsDiv.innerHTML = '<p class="isi-card" style="color: black;">Belum ada produk yang dipilih</p>';
+            totalBayarSpan.textContent = '0';
+            return;
+        }
+        
+        // Create table for invoice
+        const table = document.createElement('table');
+        table.className = 'invoice-table';
+        
+        // Create table header
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        
+        const headers = ['Produk', 'Kuantitas', 'Harga'];
+        headers.forEach(text => {
+            const th = document.createElement('th');
+            th.textContent = text;
+            headerRow.appendChild(th);
+        });
+        
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+        
+        // Create table body
+        const tbody = document.createElement('tbody');
+        
+        // Add each product to the invoice table
+        let totalPrice = 0;
+        
+        // Use a try-catch block to handle any potential errors
+        try {
+            for (const [productName, details] of Object.entries(selectedProducts)) {
+                const row = document.createElement('tr');
+                
+                // Product name cell
+                const nameCell = document.createElement('td');
+                nameCell.textContent = productName;
+                row.appendChild(nameCell);
+                
+                // Quantity cell with dropdown
+                const quantityCell = document.createElement('td');
+                const quantitySelect = document.createElement('select');
+                quantitySelect.className = 'quantity-dropdown';
+                
+                // Add options 1-10
+                for (let i = 1; i <= 10; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    if (i === details.quantity) {
+                        option.selected = true;
+                    }
+                    quantitySelect.appendChild(option);
+                }
+                
+                // Add event listener to quantity dropdown
+                quantitySelect.dataset.product = productName; // Store product name in dataset
+                quantitySelect.addEventListener('change', function() {
+                    const prodName = this.dataset.product;
+                    console.log(`Quantity changed for ${prodName} to ${this.value}`);
+                    if (selectedProducts[prodName]) {
+                        selectedProducts[prodName].quantity = parseInt(this.value);
+                        updateInvoice();
+                    }
+                });
+                
+                quantityCell.appendChild(quantitySelect);
+                row.appendChild(quantityCell);
+                
+                // Price cell
+                const priceCell = document.createElement('td');
+                const itemTotal = details.price * details.quantity;
+                priceCell.textContent = formatRupiah(itemTotal);
+                priceCell.className = 'price-cell';
+                row.appendChild(priceCell);
+                
+                // Add to total
+                totalPrice += itemTotal;
+                
+                tbody.appendChild(row);
+            }
+        } catch (err) {
+            console.error("Error in invoice update:", err);
+            invoiceItemsDiv.innerHTML = '<p class="isi-card">Terjadi kesalahan saat memperbarui invoice</p>';
+        }
+        
+        table.appendChild(tbody);
+        invoiceItemsDiv.appendChild(table);
+        
+        // Update total price - ensure we have a valid number
+        totalBayarSpan.textContent = formatRupiah(totalPrice || 0).replace('Rp ', '');
+    }
+    
+    // Helper function to format price as Rupiah
+    function formatRupiah(number) {
+        return 'Rp ' + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+    
+    // Initial invoice setup
+    updateInvoice();
+    
+    console.log("Invoice script setup complete");
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const cards = document.querySelectorAll('.card');
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            const el = entry.target;
+
+            if (entry.isIntersecting) {
+                el.classList.add('visible');
+                observer.unobserve(el); // unobserve biar animasi cuma sekali
+            }
+        });
+    }, {
+        threshold: 0.01
+    });
+
+    cards.forEach(card => {
+        observer.observe(card);
+    });
+});
+

@@ -29,12 +29,33 @@ html, body {
     padding: 15px;
     border-radius: 20px;
     color: white;
-    font-family: 'ClashGrotesk-Regular', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 18px;
     font-weight: 500;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
     margin-top: 10px;
     position: relative;
+    opacity: 0;
+    transform: scale(0.8);
+    will-change: transform, opacity;
+}
+
+.card.visible {
+    animation: popScale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    60% {
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 #spacer {
     width: 100%;
@@ -53,7 +74,7 @@ html, body {
     align-content: center;
 }
 .title h1 {
-    font-family: 'ClashGrotesk-Regular', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     align-items: center;
 }
@@ -70,8 +91,7 @@ html, body {
     height: 100px;
     width: 60%;
     margin-top: 40px;
-    background-color: #ffffff;
-    padding: 15px 15px;
+    background-color: none;
     border-radius: 10px;
 }
 .ender img {
@@ -82,7 +102,7 @@ html, body {
 }
 
 .judul-card{
-    font-family: 'ClashGrotesk-Bold', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-style: normal;
     padding: 0px 10px;
@@ -90,7 +110,7 @@ html, body {
     color: #ffffff;
 }
 .isi-card{
-    font-family: 'ClashGrotesk-Regular', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     font-style: normal;
     padding: 0px 10px;
@@ -99,16 +119,17 @@ html, body {
 }
 
 .deskripsi-singkat {
-    width: 60%;
-    padding: 10px;
-    font-family: 'ClashGrotesk-Regular', sans-serif;
-    padding: 5px 10px;
+    width: 24% ;
+    font-family: 'Montserrat', sans-serif;
+    padding: 10px 10px;
     background: none; 
     border: none; 
     box-shadow: none; 
     outline: none;
     margin-bottom: 10px;
+    margin-left: 10px;
     font-size: 16px;
+    border-radius: 20px;
 }
 .deskripsi-singkat:focus {
     outline: none; 
@@ -125,19 +146,21 @@ html, body {
     flex-direction: column;
     align-items: start;
     gap: 5px;
-    font-family: 'ClashGrotesk-Regular', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 .select-dropdown {
     width: 100%;
     max-width: 300px;
-    padding: 5px;
-    font-size: 14px;
-    border-radius: 8px;
-    background: none; 
+    padding: 10px 10px;
+    margin-left: 10px;
+    font-size: 16px;
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
     border: none; 
     box-shadow: none; 
     outline: none;
-    color: #333;
+    color: black;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-bottom: 10px;
@@ -201,7 +224,7 @@ html, body {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    font-family: 'ClashGrotesk-Bold', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-style: normal;
     z-index: 1000;
@@ -232,24 +255,28 @@ html, body {
 
 .carde {
     display: flex;
-    background-color: #ffa7da;
     flex-direction: column;
     align-items: center;
-    border-radius: 8px;
-    width: auto;
+    border-radius: 15px;
+    border: none;
+    width: 297px;
     text-align: center;
 }
 
-.carde :hover{
-    background-color: rgb(248, 242, 245);
-    border-radius: 8px;
-}
 
 .carde img {
     width: 297px;
     height: 297px;
     object-fit: cover;
     margin-bottom: 10px;
+}
+
+.carde-text{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-style: normal;
+    padding: 0px 10px;
+    font-size: 17px;
 }
 
 .checkbox-wrapper {
@@ -280,6 +307,57 @@ button:hover {
     background-color: #0056b3;
 }
 
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.invoice-table th, 
+.invoice-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    color: #000;
+}
+
+.invoice-table th {
+    font-weight: 600;
+}
+
+.invoice-table .price-cell {
+    text-align: right;
+    font-weight: 500;
+}
+
+/* Dropdown for Quantity */
+.quantity-dropdown {
+    width: 60px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: 'Montserrat', sans-serif;
+    background-color: white;
+}
+
+.quantity-dropdown:focus {
+    outline: none;
+    border-color: #ffcc00;
+    box-shadow: 0 0 3px rgba(255, 204, 0, 0.5);
+}
+
+/* Add some space between invoice items */
+#invoiceItems {
+    margin-bottom: 15px;
+}
+
+/* Total price styling */
+#totalBayar {
+    font-weight: 700;
+    color: #000;
+}
+
 @media (max-width: 431px) {
     .title{
         height: 400px;
@@ -291,7 +369,7 @@ button:hover {
     .ender{
         height: 100px;
         width: 75%;
-        background-color: #ffffff;
+        background-color: none;
         padding: 15px 15px;
         border-radius: 10px;
     }
@@ -304,9 +382,10 @@ button:hover {
         border-radius: 10px;
         margin-top: 10px;
     }
+    
 
     .judul-card{
-        font-family: 'ClashGrotesk-Bold', sans-serif;
+        font-family: 'Montserrat', sans-serif;
         font-weight: 700;
         font-style: normal;
         padding: 0px 10px;
@@ -319,8 +398,8 @@ button:hover {
     .deskripsi-singkat {
         width: 60%;
         padding: 10px;
-        font-family: 'ClashGrotesk-Regular', sans-serif;
-        padding: 5px 10px;
+        font-family: 'Montserrat', sans-serif;
+        padding: 10px 10px;
         background: none; 
         border: none; 
         box-shadow: none; 
@@ -328,26 +407,51 @@ button:hover {
         margin-bottom: 10px;
         font-size: 12px;
     }
+    .select-dropdown {
+        width: 90%;
+        padding: 10px 10px;
+        font-size: 12px;
+    }
 
+    .carde{
+        height: fit-content;
+        width: 48%;
+        border-radius: 15px;
+    }
     .carde img {
-        width: 135px;
-        height: 135px;
-        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
         margin-bottom: 10px;
+    }
+    .carde-text{
+        font-size: 14px;
     }
 
     .checkbox-wrapper {
         position: relative;
-        bottom: 1px;
-        right: -30px;
+        bottom: 3px;
+        right: -55px;
     }
 
     .checkbox-wrapper input[type="checkbox"] {
-        width: 10px;
-        height: 10px;
+        width: 15px;
+        height: 15px;
         accent-color: #007bff;
         cursor: pointer;
     }
+
+    .invoice-table th, 
+    .invoice-table td {
+        padding: 8px 5px;
+        font-size: 14px;
+    }
+    
+    .quantity-dropdown {
+        width: 50px;
+        padding: 3px;
+    }
+
 }
 
 .popup-success {
@@ -364,7 +468,7 @@ button:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     font-size: 16px;
-    font-family: 'ClashGrotesk-Regular', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     z-index: 1000;
     display: none;
@@ -400,4 +504,33 @@ button:hover {
 
 .popup-success a:hover {
     background: #c3f3d5;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: none;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #ffcc00;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

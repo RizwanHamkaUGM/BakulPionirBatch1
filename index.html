@@ -15,28 +15,27 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
 
 </head>
+
 <body>
     <div class="title">
         <img src="BAKULPIONIR.png" alt="">
     </div>
 
-
-
     <div class="card">
-        <p class="judul-card">Nama Lengkap</p>
-        <input type="text" id="namaInput" class="deskripsi-singkat" placeholder="Masukkan Nama Kamu" required>
+        <p class="judul-card">isi nama kamu dulu 👇</p>
+        <input type="text" id="namaInput" class="deskripsi-singkat" placeholder="Isi nama kamu disini" required>
     </div>
     
     <div class="card">
-        <p class="judul-card">Nomor Whatsapp</p>
-        <input type="tel" id="nomorInput" class="deskripsi-singkat" placeholder="Masukkan Nomor Whatsapp" required>
+        <p class="judul-card">Masukkan nomor WA yang aktif ya 📲</p>
+        <input type="tel" id="nomorInput" class="deskripsi-singkat" placeholder="Isi nomor wa kamu disini" required>
     </div>
 
     <div class="card">
-        <p class="judul-card">Asal Prodi</p>
+        <p class="judul-card">Kamu dari prodi apa nih? ✨</p>
         <div class="dropdown-container">
             <select id="fakultas" name="fakultas" class="select-dropdown">
-                <option value="" disabled selected>Pilih Fakultas Kamu :D</option>
+                <option value="" disabled selected>Pilih Fakultas Kebanggaanmu :D</option>
                 <option value="faperta">Fakultas Pertanian</option>
                 <option value="fkh">Fakultas Kedokteran Hewan</option>
                 <option value="ft">Fakultas Teknik</option>
@@ -51,7 +50,6 @@
                 <option value="fk">Fakultas Kehutanan</option>
                 <option value="fmipa">Fakultas Matematika dan Ilmu Pengetahuan Alam</option>
                 <option value="sv">Sekolah Vokasi</option>
-                <option value="sp">Sekolah Pascasarjana</option>
             </select>
         </div>
     </select>
@@ -59,48 +57,124 @@
     </div>
 
     <div class="card">
-        <p class="judul-card">Domisili (Kota)</p>
-        <input type="text" id="domisiliInput" class="deskripsi-singkat" placeholder="Masukkan Domisili Anda" required>
+        <p class="judul-card">Kamu tinggal di mana nih? Isi domisili kotamu ya!</p>
+        <input type="text" id="domisiliInput" class="deskripsi-singkat" placeholder="Isi Domisili kamu disini" required>
     </div>
 
     <div class="card">
-        <p>Pilih produk yang ingin dipesan (bisa pilih lebih dari satu):  </p>
+        <p class="judul-card">Isi Instagram-mu ya, siapa tahu dapat promo ✨</p>
+        <input type="text" id="domisiliInput" class="deskripsi-singkat" placeholder="Isi username ig kamu disini" required>
+    </div>
+
+    <div class="card">
+        <p class="judul-card">Yuk pilih produk yang kamu mau! Bisa lebih dari satu loh 😍 </p>
         <div class="checkbox-container-carde">
             <div class="carde">
-                <img src="bakul.png" alt="Atribut 1">
-                <label for="atribut1">Atribut 1</label>
+                <img src="imageBundle/BUNDLESULTANSEJATI.png" alt="Bundle Sultan Sejati">
+                <label for="bundleSultan" class="carde-text">Bundle Sultan Sejati (85K)</label>
                 <div class="checkbox-wrapper">
-                    <input type="checkbox" id="atribut1" name="produk" value="atribut1">
+                    <input type="checkbox" id="bundleSultan" name="produk" value="Bundle Sultan Sejati">
+                </div>
+            </div>
+    
+            <div class="carde">
+                <img src="imageBundle/BUNDLEPAKETLENGKAP.png" alt="Bundle Paket Lengkap">
+                <label for="bundleLengkap" class="carde-text">Bundle Paket Lengkap (46K)</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="bundleLengkap" name="produk" value="Bundle Paket Lengkap">
+                </div>
+            </div>
+            
+            <div class="carde">
+                <img src="imageBundle/BUNDLESTYLISH.png" alt="Bundle Stylish">
+                <label for="bundleStylish" class="carde-text">Bundle Stylish (38K)</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="bundleStylish" name="produk" value="Bundle Stylish">
+                </div>
+            </div>
+            
+            <div class="carde">
+                <img src="imageBundle/BUNDLEEKSEKUTIFPIONIR.png" alt="Bundle eks">
+                <label for="bundleEksekutifPionir" class="carde-text">Bundle Eksekutif Pionir (36K)</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="bundleEksekutifPionir" name="produk" value="bundle Eksekutif Pionir">
+                </div>
+            </div>
+            
+            <div class="carde">
+                <img src="imageBundle/BUNDLESTARTER.png" alt="Bundle eks">
+                <label for="bundleStarter" class="carde-text">Bundle Starter (75K)</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="bundleStarter" name="produk" value="bundle Starter">
+                </div>
+            </div>
+
+            <div class="carde">
+                <img src="imageBundle/BUNDLEPEJUANGHEMAT.png" alt="Bundle eks">
+                <label for="bundlePejuangHemat" class="carde-text">Bundle Pejuang Hemat (28K)</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="bundlePejuangHemat" name="produk" value="bundle Pejuang">
+                </div>
+            </div>
+
+            <div class="carde">
+                <img src="imageBundle/CAPING.png" alt="Bundle eks">
+                <label for="caping" class="carde-text">Caping Warna (27K)</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="caping" name="produk" value="bundle Pejuang">
+                </div>
+            </div>
+
+            <div class="carde">
+                <img src="imageBundle/LANYARD.png" alt="Bundle eks">
+                <label for="lanyard" class="carde-text">Lanyard (18K)</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="lanyard" name="produk" value="bundle Pejuang">
+                </div>
+            </div>
+
+            <div class="carde">
+                <img src="imageBundle/DASI.png" alt="Bundle eks">
+                <label for="dasi" class="carde-text">Dasi (14K)</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="dasi" name="produk" value="bundle Pejuang">
                 </div>
             </div>
             <div class="carde">
-                <img src="bakul.png" alt="Atribut 2">
-                <label for="atribut2">Atribut 2</label>
+                <img src="imageBundle/DASI.png" alt="Bundle eks">
+                <label for="totebag" class="carde-text">Totebag (45K)</label>
                 <div class="checkbox-wrapper">
-                    <input type="checkbox" id="atribut2" name="produk" value="atribut2">
+                    <input type="checkbox" id="totebag" name="produk" value="bundle Pejuang">
                 </div>
             </div>
             <div class="carde">
-                <img src="bakul.png" alt="Atribut 3">
-                <label for="atribut3">Atribut 3</label>
+                <img src="imageBundle/DASI.png" alt="Bundle eks">
+                <label for="sticker" class="carde-text">Sticker (10K)</label>
                 <div class="checkbox-wrapper">
-                    <input type="checkbox" id="atribut3" name="produk" value="atribut3">
-                </div>
-            </div>
-            <div class="carde">
-                <img src="bakul.png" alt="Atribut 3">
-                <label for="atribut3">Atribut 3</label>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="atribut3" name="produk" value="atribut3">
+                    <input type="checkbox" id="sticker" name="produk" value="bundle Pejuang">
                 </div>
             </div>
         </div>
     </div>
 
+
     <div class="card">
+        <p class="judul-card">Invoice Pembayaran Kamu!</p>
+    
+        <div id="invoiceItems">
+            <!-- Invoice items will be dynamically added here -->
+        </div>
+    
+        <hr>
+        <p class="isi-card" style="font-weight: bold; text-decoration: underline;color: black">
+            Total Pembayaran: Rp <span id="totalBayar" style="color: black; font-weight: 900;">0</span>
+        </p>
+    </div>
+
+    <div class="card" >
         <p class="judul-card">Upload Bukti Pembayaran</p>
-        <p class="isi-card">Format file yang diizinkan: jpg, png, jpeg. Ukuran maksimal 2MB.</p>
-        <p class="isi-card">
+        <p class="isi-card" style="font-weight: 900; text-decoration: underline; color: black">FORMAT FILE YANG DIIZINKAN: JPG, PNG, JPEG. UKURAN MAKSIMAL 2MB.</p>
+        <p class="isi-card" style="color: black">
             📌 <strong>Informasi Pembayaran</strong><br><br>
 
             🏦 <strong>Bank: BNI</strong><br>
@@ -130,12 +204,12 @@
         <input type="file" id="buktiBayarInput" class="input-file" accept="image/*" required>
     </div>
 
-    <div class="card" id="submitCard" onclick="submitForm()" style="cursor: pointer; text-align: center; background-color: #ffcc00; padding: 15px; font-weight: bold;">
-        <p>Kirim Pesanan</p>
+    <div class="card" id="submitCard"  style="cursor: pointer; text-align: center; background-color: #ffcc00; padding: 15px; font-weight: bold;">
+        <p class="judul-card">Klik untuk Kirim Pesanan!</p>
     </div>
 
     <div class="ender">
-        <img src="tesBanner.png" alt="">
+        <!-- <img src="tesBanner.png" alt=""> -->
     </div>
 
     <div id="errorPopup" class="popup-error">
@@ -150,6 +224,11 @@
         <button onclick="closeSuccessPopup()">Tutup</button>
     </div>
 
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p style="color: white; font-weight: bold; margin-top: 10px; font-family: 'Montserrat', sans-serif;">Mengirim Pesanan...</p>
+    </div>
+    
 
     <script type="module">
         // Ganti dengan konfigurasi Firebase milikmu
@@ -176,4 +255,5 @@
     </script>
     <script src="script.js"></script>
 </body>
+
 </html>
