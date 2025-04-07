@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!buktiBayarURL) throw new Error("Gagal mengunggah gambar!");
 
             // Simpan data pesanan di Firestore
-            const orderRef = window.doc(window.db, "Batch1test", nama + "_" + Date.now());
+            const orderRef = window.doc(window.db, "BakulPionirBatch1", nama + "_" + Date.now());
             await window.setDoc(orderRef, {
                 nama,
                 nomor,
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 timestamp: window.serverTimestamp()
             });
             hideLoading();
-            showSuccessPopup("https://chat.whatsapp.com/HiVQu0FtPKe50p4IaWnoln");
+            showSuccessPopup("https://chat.whatsapp.com/IQXTuJYZlcr6vbJN9acvim");
             // Reset form setelah berhasil dikirim
             document.getElementById("namaInput").value = "";
             document.getElementById("nomorInput").value = "";
@@ -206,11 +206,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const products = {
         "Bundle Sultan Sejati": 85000,
         "Bundle Paket Lengkap": 46000,
-        "Bundle Stylish": 38000,
+        "Bundle Stylish": 75000,
         "Bundle Eksekutif Pionir" : 36000,
-        "Bundle Starter" : 75000,
+        "Bundle Starter" : 38000,
         "Bundle Pejuang Hemat" : 28000,
-        "Caping" : 27000,
+        "Caping Warna" : 27000,
+        "Caping Polos" : 24000,
         "Lanyard" : 18000,
         "Dasi" : 14000,
         "Totebag" : 45000,
@@ -227,6 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const bundleStarter = document.getElementById('bundleStarter');
     const bundlePejuangHemat = document.getElementById('bundlePejuangHemat');
     const caping = document.getElementById('caping');
+    const capingPolos = document.getElementById('capingPolos');
     const lanyard = document.getElementById('lanyard');
     const dasi = document.getElementById('dasi');
     const totebag = document.getElementById('totebag');
@@ -278,7 +280,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (caping) {
         caping.addEventListener('change', function() {
             console.log("Stylish checkbox changed:", this.checked);
-            handleProductSelection("Caping", this.checked);
+            handleProductSelection("Caping Warna", this.checked);
+        });
+    }
+    if (capingPolos) {
+        capingPolos.addEventListener('change', function() {
+            console.log("Stylish checkbox changed:", this.checked);
+            handleProductSelection("Caping Polos", this.checked);
         });
     }
     if (lanyard) {
