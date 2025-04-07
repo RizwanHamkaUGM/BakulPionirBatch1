@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "Lanyard" : 18000,
         "Dasi" : 14000,
         "Totebag" : 45000,
-        "Sticker" : 10000
+        "Sticker" : 7000
     };
     
     // Initialize selected products object to track selections
