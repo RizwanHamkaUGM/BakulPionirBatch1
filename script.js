@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Define products with their prices
     const products = {
         "Bundle Sultan Sejati": 85000,
-        "Bundle Paket Lengkap": 46000,
+        "Bundle Paket Lengkap": 47000,
         "Bundle Stylish": 75000,
         "Bundle Eksekutif Pionir" : 36000,
         "Bundle Starter" : 38000,
