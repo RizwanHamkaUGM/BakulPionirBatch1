@@ -127,10 +127,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cards.forEach((card, index) => {
         let randomLeft = window.innerWidth <= 430 
-            ? -5 + Math.random() * 20 
-            : -40 + Math.random() * 80; // Left diatur biar geser dikit 
+            ? 0 + Math.random() * 0 
+            : 0 + Math.random() * 0; // Left diatur biar geser dikit 
 
-        let randomRotate = -1 + Math.random() * 1;
+        let randomRotate = 0 + Math.random() * 0;
         let selectedColor = colors[colorIndex];
         colorIndex = (colorIndex + 1) % colors.length;
 
