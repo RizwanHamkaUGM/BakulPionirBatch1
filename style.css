@@ -210,11 +210,11 @@ input[type='file'] {
     font-size: 16px;
     font-weight: 700;
     transition: background-color 0.3s;
-  }
+}
 
-  .custom-file-label:hover {
+.custom-file-label:hover {
     background-color: rgb(188, 188, 188);
-  }
+}
   /* Styling untuk tombol default "Choose File" */
 .input-file::-webkit-file-upload-button {
     font-size: 16px;
@@ -473,6 +473,10 @@ button:hover {
     .quantity-dropdown {
         width: 50px;
         padding: 3px;
+    }
+
+    .custom-file-label {
+        font-size: 12px;
     }
 
 }
