@@ -381,6 +381,11 @@ button:hover {
     color: #000;
 }
 
+.card img{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
 @media (max-width: 431px) {
     .title{
         height: 400px;
