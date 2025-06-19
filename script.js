@@ -101,6 +101,47 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 });
+document.addEventListener('DOMContentLoaded', function () {
+
+    // --- Fungsionalitas untuk Collapsible Payment ---
+    const collapsibles = document.querySelectorAll(".collapsible");
+
+    collapsibles.forEach(collapsible => {
+        collapsible.addEventListener("click", function() {
+            this.classList.toggle("active");
+            const content = this.nextElementSibling;
+
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                content.style.padding = "0 18px"; // Kembali ke padding 0 saat ditutup
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                content.style.padding = "15px 18px"; // Tambahkan padding saat dibuka
+            }
+        });
+    });
+
+    // --- Fungsionalitas untuk Indikator Upload File ---
+    const fileInput = document.getElementById('buktiBayarInput');
+    const fileLabel = document.getElementById('fileLabel');
+    const fileLabelText = fileLabel.querySelector('.text');
+    const fileLabelIcon = fileLabel.querySelector('.icon');
+
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            // File dipilih
+            fileLabelText.textContent = `File Terpilih: ${this.files[0].name}`;
+            fileLabelIcon.innerHTML = '✅'; // Ganti ikon menjadi centang
+            fileLabel.classList.add('file-chosen');
+        } else {
+            // Tidak ada file yang dipilih (atau dibatalkan)
+            fileLabelText.textContent = 'Pilih file kamu :D';
+            fileLabelIcon.innerHTML = '📥'; // Kembalikan ikon semula
+            fileLabel.classList.remove('file-chosen');
+        }
+    });
+
+});
 
 document.addEventListener("DOMContentLoaded", () => {
     const cards = document.querySelectorAll(".card");
@@ -470,3 +511,64 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
+// Letakkan kode ini di dalam salah satu event listener DOMContentLoaded yang sudah ada
+document.addEventListener("DOMContentLoaded", function () {
+    
+    // ... (kode observer dan lainnya yang sudah ada di file Anda) ...
+    
+    // PANGGIL FUNGSI UNTUK MEMBUAT PARTIKEL BUNGA
+    createFlowerParticles();
+});
+
+
+// INI ADALAH FUNGSI BARU UNTUK MEMBUAT PARTIKEL BUNGA
+function createFlowerParticles() {
+    const container = document.getElementById('particle-container');
+    if (!container) return;
+
+    const particleCount = 20;
+    const positions = []; // Untuk menyimpan posisi bunga yang sudah ada
+
+    for (let i = 0; i < particleCount; i++) {
+        const flower = document.createElement('img');
+        flower.src = 'bunga.png';
+        flower.classList.add('particle-flower');
+
+        // Ukuran acak (antara 20px hingga 60px)
+        const size = Math.random() * 40 + 20;
+        flower.style.width = `${size}px`;
+        flower.style.height = `${size}px`;
+
+        let left, top;
+        let attempts = 0;
+        let isOverlapping;
+
+        // Coba cari posisi yang tidak menumpuk maksimal 50 kali percobaan
+        do {
+            left = Math.random() * 100;
+            top = 100 - Math.random() * 70;
+            isOverlapping = positions.some(pos => {
+                const dx = Math.abs(pos.left - left);
+                const dy = Math.abs(pos.top - top);
+                return dx < 6 && dy < 10; // minimal jarak dalam vw/vh
+            });
+            attempts++;
+        } while (isOverlapping && attempts < 50);
+
+        // Simpan posisi yang sudah aman
+        positions.push({ left, top });
+
+        // Set posisi
+        flower.style.left = `${left}vw`;
+        flower.style.top = `${top}vh`;
+
+        // Durasi dan delay animasi acak
+        const duration = Math.random() * 10 + 5;
+        flower.style.animationDuration = `${duration}s`;
+        const delay = Math.random() * 5;
+        flower.style.animationDelay = `${delay}s`;
+
+        container.appendChild(flower);
+    }
+}

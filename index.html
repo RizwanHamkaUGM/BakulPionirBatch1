@@ -18,6 +18,11 @@
 </head>
 
 <body>
+
+    <div id="particle-container"></div> <div class="title">
+        <img src="bunga.png" alt="" hidden>
+    </div>
+
     <div class="title">
         <img src="BAKULPIONIR.png" alt="">
     </div>
@@ -185,43 +190,80 @@
         </p>
     </div>
 
-    <div class="card" >
+    <div class="card">
         <p class="judul-card">Upload Bukti Pembayaran</p>
-        <p class="isi-card" style="font-weight: 900; text-decoration: underline; color: black">FORMAT FILE YANG DIIZINKAN: JPG, PNG, JPEG. UKURAN MAKSIMAL 2MBundle</p>
-        <p class="isi-card" style="color: black">
-            📌 <strong>Informasi Pembayaran</strong><br><br>
+        <p class="isi-card" style="font-weight: 900; text-decoration: underline; color: black;">FORMAT FILE YANG DIIZINKAN: JPG, PNG, JPEG. UKURAN MAKSIMAL 2MB</p>
+    
+        <div class="payment-info">
+            <div class="info-pembayaran-container">
 
-            🏦 <strong>Bank: BNI</strong><br>
-            💳 Nomor Rekening: <strong>1130388177</strong><br>
-            👤 Atas Nama: <strong>Karina Damayora</strong><br><br>
-
-            🏦 <strong>Bank: Gopay</strong><br>
-            💳 Nomor Gopay: <strong>081391675760</strong><br>
-            👤 Atas Nama: <strong>Bagas S</strong><br><br>
-
-            🏦 <strong>Bank: ShopeePay</strong><br>
-            💳 Nomor Spay: <strong>08882347574</strong><br>
-            👤 Atas Nama: <strong>zahirzidane</strong><br><br>
-
-            🔹 <strong>Jumlah Transfer:</strong><br>
-            Harap tambahkan <strong>001 rupiah</strong> pada total pembayaran.<br><br>
-
-            Contoh:<br>
-            Jika totalnya Rp 41.000, maka transfer Rp <strong>41.001</strong><br>
-            Jika totalnya Rp 23.000, maka transfer Rp <strong>23.001</strong><br><br>
-
-            📤 <strong>Bukti Transfer:</strong><br>
-            Unggah bukti transfer dengan format:<br>
-            <strong>Nama_Pembelian</strong><br><br>
-
-            Contoh:<br>
-            ✅ Zidan_Bundling Kroco<br><br>
-
-            Pastikan jumlah yang ditransfer sesuai agar pembayaran dapat diverifikasi dengan cepat. ✅
-        </p>
-        <img class="imageQris" src="Qris/qris_bakulPionir.png" alt="">
-        <input type="file" id="buktiBayarInput" class="input-file" accept="image/*" required>
-        <label for="buktiBayarInput" class="custom-file-label">📥 Pilih file kamu :D</label>
+                <div class="instruksi-item">
+                    <div class="instruksi-icon">🔢</div>
+                    <div class="instruksi-teks">
+                        <strong>Jumlah Transfer</strong>
+                        <p>
+                            Untuk verifikasi otomatis, harap tambahkan kode unik <strong>001</strong> di akhir total pembayaran Anda.
+                            <br>
+                            <span>Contoh: Jika total Rp 41.000, transfer Rp <strong>41.001</strong></span>
+                        </p>
+                    </div>
+                </div>
+            
+                <div class="instruksi-item">
+                    <div class="instruksi-icon">📤</div>
+                    <div class="instruksi-teks">
+                        <strong>Format Nama File Bukti Transfer</strong>
+                        <p>
+                            Gunakan format <strong>Nama_Pembelian</strong> untuk mempercepat proses verifikasi.
+                            <br>
+                            <span>Contoh: <strong>Zidan_BundlingKroco</strong></span>
+                        </p>
+                    </div>
+                </div>
+            
+                <p class="metode-pembayaran-label">
+                    Metode Pembayaran yang Tersedia:
+                </p>
+            
+            </div>
+        </div>
+    
+        <button type="button" class="collapsible">
+            BNI
+        </button>
+        <div class="content">
+            <p>Nomor Rekening: <strong>1130388177</strong></p>
+            <p>Atas Nama: <strong>Karina Damayora</strong></p>
+        </div>
+    
+        <button type="button" class="collapsible">
+            Gopay
+        </button>
+        <div class="content">
+            <p>Nomor Gopay: <strong>081391675760</strong></p>
+            <p>Atas Nama: <strong>Bagas S</strong></p>
+        </div>
+    
+        <button type="button" class="collapsible">
+            ShopeePay
+        </button>
+        <div class="content">
+            <p>Nomor ShopeePay: <strong>08882347574</strong></p>
+            <p>Atas Nama: <strong>zahirzidane</strong></p>
+        </div>
+        
+        <button type="button" class="collapsible">
+            QRIS
+        </button>
+        <div class="content">
+            <img class="imageQris" src="Qris/qris_bakulPionir.png" alt="QRIS Code">
+        </div>
+    
+        <input type="file" id="buktiBayarInput" class="input-file" accept="image/jpeg, image/png, image/jpg" required>
+        <label for="buktiBayarInput" class="custom-file-label" id="fileLabel">
+            <span class="icon">📁</span>
+            <span class="text">Pilih file kamu!</span>
+        </label>
     </div>
 
     <div class="card" id="submitCard"  style="cursor: pointer; text-align: center; background-color: #ffcc00; padding: 15px; font-weight: bold;">
