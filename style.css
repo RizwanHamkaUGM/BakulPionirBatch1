@@ -132,6 +132,7 @@ html, body {
     margin-left: 10px;
     font-size: 16px;
     border-radius: 14px;
+    color: white;
 }
 
 .deskripsi-singkat:focus {
