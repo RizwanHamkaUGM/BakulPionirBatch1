@@ -188,7 +188,7 @@ html, body {
     justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
-}
+}   
 
 input[type='file'] {
     color: transparent;
@@ -286,21 +286,24 @@ input[type='file'] {
 .carde {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Improves vertical alignment of content */
+    justify-content: space-between;
     align-items: center;
     border-radius: 16px;
     width: 280px;
+    height: max-content;
     text-align: center;
-    border: 3px solid #4e4ebe;
-    overflow: hidden; /* Ensures the image does not spill outside the rounded corners */
-    cursor: pointer; /* Changes the cursor to show the card is clickable */
-    /* Adds a smooth animation for the click effect */
+    border: 2px solid #4e4ebe;
+    overflow: hidden;
+    cursor: pointer;
     transition: transform 0.3s ease, opacity 0.3s ease;
-}
+    
+    /* TAMBAHKAN BARIS INI */
+    box-sizing: border-box; 
+  }
 
 .carde img {
-    width:  290px;
-    height:  290px;
+    width:  2800px;
+    height:  280px;
     object-fit: cover;
     margin-bottom: 10px;
     
@@ -473,12 +476,12 @@ button:hover {
     .checkbox-wrapper {
         position: relative;
         bottom: 3px;
-        right: -55px;
+        right: -52px;
     }
 
     .checkbox-wrapper input[type="checkbox"] {
-        width: 15px;
-        height: 15px;
+        width: 10px;
+        height: 10px;
         accent-color: #007bff;
         cursor: pointer;
     }
@@ -497,6 +500,8 @@ button:hover {
     .custom-file-label {
         font-size: 12px;
     }
+
+
 
 }
 
