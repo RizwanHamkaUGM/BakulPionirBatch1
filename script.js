@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!buktiBayarURL) throw new Error("Gagal mengunggah gambar!");
 
             // Simpan data pesanan di Firestore
-            const orderRef = window.doc(window.db, "BakulPionirBatch1", nama + "_" + Date.now());
+            const orderRef = window.doc(window.db, "BakulPionirBatch2", nama + "_" + Date.now());
             await window.setDoc(orderRef, {
                 nama,
                 nomor,
@@ -106,12 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cards = document.querySelectorAll(".card");
 
     let colors = [
-        { bg: "#b18850", text: "#f9e81e" },
-        { bg: "#0295ff", text: "#8ce2f3" },
-        { bg: "#47edbd", text: "#0f4e4d" },
-        { bg: "#bbc41d", text: "#147931" },
-        { bg: "#e42f90", text: "#ffb9fb" },
-        { bg: "#ccb4f0", text: "#644fac" }
+        { bg: "#e0ebff", text: "#4e4ebe" }
     ];
 
     let colorIndex = 0;
@@ -205,17 +200,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Define products with their prices
     const products = {
         "Bundle Sultan Sejati": 85000,
-        "Bundle Paket Lengkap": 47000,
+        "Bundle Paket Lengkap": 60000,
         "Bundle Stylish": 75000,
-        "Bundle Eksekutif Pionir" : 36000,
-        "Bundle Starter" : 38000,
-        "Bundle Pejuang Hemat" : 28000,
-        "Caping Warna" : 27000,
-        "Caping Polos" : 24000,
-        "Lanyard" : 18000,
-        "Dasi" : 14000,
+        "Bundle Eksekutif Pionir" : 40000,
+        "Bundle Starter" : 45000,
+        "Bundle Pejuang Hemat" : 35000,
+        "Caping Warna" : 30000,
+        "Caping Polos" : 27000,
+        "Lanyard" : 22000,
+        "Dasi" : 17000,
         "Totebag" : 45000,
-        "Sticker" : 7000
+        "Sticker" : 8000
     };
     
     // Initialize selected products object to track selections
