@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 timestamp: window.serverTimestamp()
             });
             hideLoading();
-            showSuccessPopup("https://chat.whatsapp.com/IQXTuJYZlcr6vbJN9acvim");
+            showSuccessPopup("https://chat.whatsapp.com/G1WXDNLlPV09JvHrwlfFNS");
             // Reset form setelah berhasil dikirim
             document.getElementById("namaInput").value = "";
             document.getElementById("nomorInput").value = "";
