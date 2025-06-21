@@ -297,11 +297,17 @@ input[type='file'] {
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s ease, opacity 0.3s ease;
-    
+    padding-bottom: 30px;
+    max-height: 340px;
     /* TAMBAHKAN BARIS INI */
     box-sizing: border-box; 
-  }
-
+    transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+}
+.carde.selected {
+    transform: scale(0.95); /* Shrinks the card slightly */
+    opacity: 0.7;           /* Fades the card's color */
+    box-shadow: 0 4px 10px rgba(78, 78, 190, 0.15); /* A less prominent shadow */
+}
 .carde img {
     width:  2800px;
     height:  280px;
@@ -325,6 +331,7 @@ input[type='file'] {
 }
 
 .checkbox-wrapper input[type="checkbox"] {
+    display: none;
     width: 20px;
     height: 20px;
     accent-color: #007bff;
@@ -346,29 +353,6 @@ button:hover {
     background-color: #0056b3;
 }
 
-.invoice-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 15px 0;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.invoice-table th, 
-.invoice-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    color: #000;
-}
-
-.invoice-table th {
-    font-weight: 600;
-}
-
-.invoice-table .price-cell {
-    text-align: right;
-    font-weight: 500;
-}
 
 /* Dropdown for Quantity */
 .quantity-dropdown {
@@ -463,6 +447,8 @@ button:hover {
         height: fit-content;
         width: 48%;
         border-radius: 15px;
+        padding-bottom: 10px;
+        /* max-height: 230px; */
     }
     .carde img {
         width: 100%;
@@ -485,12 +471,6 @@ button:hover {
         height: 10px;
         accent-color: #007bff;
         cursor: pointer;
-    }
-
-    .invoice-table th, 
-    .invoice-table td {
-        padding: 8px 5px;
-        font-size: 14px;
     }
     
     .quantity-dropdown {
@@ -745,8 +725,8 @@ button:hover {
 .instruksi-item {
     display: flex;
     align-items: flex-start; /* Mengubah dari center ke start agar teks panjang tetap rapi */
-    background-color: #f8f9fa; /* Warna latar yang sangat soft */
-    border: 1px solid #e9ecef;
+    background-color: #e0ebff; /* Warna latar yang sangat soft */
+    border: 1px solid #4055a2;
     border-radius: 12px;
     padding: 15px;
     margin-bottom: 15px; /* Jarak antar item instruksi */
@@ -880,4 +860,144 @@ button:hover {
 /* --- PENYESUAIAN Z-INDEX UNTUK GRID LAMA --- */
 .parallax-bg {
     z-index: -2; /* Ubah z-index grid menjadi -2 agar berada di belakang partikel bunga */
+}
+
+/* TAMBAHKAN DI AKHIR FILE style.css ANDA */
+
+/* === Gaya untuk Tombol Unduh QRIS === */
+.download-button {
+    display: block; /* Membuat link menjadi elemen blok */
+    width: max-content; /* Lebar tombol menyesuaikan konten */
+    margin: 15px auto 10px auto; /* Posisi di tengah dengan margin atas dan bawah */
+    padding: 10px 20px;
+    background-color: #e6f2ff; /* Warna hijau yang menandakan aksi positif */
+    color: #4055a1;
+    border-radius: 8px;
+    text-decoration: none; /* Menghilangkan garis bawah pada link */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.download-button:hover {
+    background-color: #d4e9ff; /* Warna menjadi lebih gelap saat disentuh mouse */
+    transform: translateY(-2px); /* Tombol sedikit terangkat */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.download-button .icon {
+    margin-right: 8px;
+}
+
+/* TAMBAHKAN SEMUA INI DI AKHIR FILE style.css */
+
+/* === Gaya Baru untuk Invoice Container === */
+.invoice-container {
+    margin-top: 15px;
+    background-color: #e0ebff; /* Latar belakang abu-abu sangat muda */
+    border-radius: 12px;
+    border: 1px solid #4e4ebe;
+
+    overflow: hidden; /* Penting untuk menjaga border-radius */
+    font-family: 'Montserrat', sans-serif;
+}
+
+.invoice-header {
+    padding: 12px 15px;
+    background-color: #4e4ebe; /* Latar belakang header sedikit lebih gelap */
+    border-bottom: 1px solid #dee2e6;
+}
+
+.invoice-header p {
+    margin: 0;
+    font-weight: 600;
+    font-size: 16px;
+    color: white;
+}
+
+/* Penyesuaian untuk pesan "Belum ada produk" */
+#invoiceItems .isi-card {
+    color: #6c757d;
+    text-align: center;
+    padding: 20px 0;
+}
+
+
+/* === Gaya Baru untuk Tabel Invoice yang Dihasilkan JavaScript === */
+#invoiceItems .invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    color: #212529; /* Warna teks hitam yang lebih soft */
+}
+
+#invoiceItems .invoice-table th, 
+#invoiceItems .invoice-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef; /* Garis pemisah antar item */
+}
+
+/* Baris terakhir tidak perlu garis bawah */
+#invoiceItems .invoice-table tr:last-child td {
+    border-bottom: none;
+}
+
+#invoiceItems .invoice-table th {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+#invoiceItems .invoice-table td {
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+#invoiceItems .invoice-table .price-cell {
+    text-align: right;
+    font-weight: 500;
+}
+
+/* Dropdown kuantitas tetap sama */
+.quantity-dropdown {
+    width: 60px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: 'Montserrat', sans-serif;
+    background-color: white;
+}
+
+
+/* === Gaya Baru untuk Bagian Total === */
+.invoice-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 15px;
+    background-color: #e0ebff; /* Warna biru muda yang serasi dengan tema */
+    border-top: 1px solid #d4deff;
+}
+
+.invoice-total .total-label {
+    margin: 0;
+    font-weight: 700;
+    font-size: 16px;
+    color: #4e4ebe; /* Warna biru tua */
+}
+
+.invoice-total .total-amount {
+    margin: 0;
+    font-weight: 800;
+    font-size: 22px;
+    color: #3d52a0;
+}
+
+.invoice-total .total-amount span {
+    color: inherit; /* Mewarisi warna dari parent */
+    font-weight: inherit;
+    font-size: inherit;
 }

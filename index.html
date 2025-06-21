@@ -28,17 +28,17 @@
     </div>
 
     <div class="card">
-        <p class="judul-card">isi nama kamu dulu 👇</p>
+        <p class="judul-card">isi nama kamu dulu</p>
         <input type="text" id="namaInput" class="deskripsi-singkat" placeholder="Isi nama kamu disini" required>
     </div>
     
     <div class="card">
-        <p class="judul-card">Masukkan nomor WA yang aktif ya 📲</p>
+        <p class="judul-card">Masukkan nomor WA yang aktif ya</p>
         <input type="tel" id="nomorInput" class="deskripsi-singkat" placeholder="Isi nomor wa kamu disini" required>
     </div>
 
     <div class="card">
-        <p class="judul-card">Kamu dari fakultas apa nih? ✨</p>
+        <p class="judul-card">Kamu dari fakultas apa nih?</p>
         <div class="dropdown-container">
             <select id="fakultas" name="fakultas" class="select-dropdown">
                 <option value="" disabled selected>Pilih Fakultas Kebanggaanmu :D</option>
@@ -73,12 +73,12 @@
     </div>
 
     <div class="card">
-        <p class="judul-card">Isi Instagram-mu ya, siapa tahu dapat promo ✨</p>
-        <input type="text" id="domisiliInput" class="deskripsi-singkat" placeholder="Isi username ig kamu disini" required>
+        <p class="judul-card">Isi Instagram-mu ya, siapa tahu dapat promo</p>
+        <input type="text" id="instagramInput" class="deskripsi-singkat" placeholder="Isi username ig kamu disini" required>
     </div>
 
     <div class="card">
-        <p class="judul-card">Yuk pilih produk yang kamu mau! Bisa lebih dari satu loh 😍 </p>
+        <p class="judul-card">Yuk pilih produk yang kamu mau! Bisa lebih dari satu loh</p>
         <div class="checkbox-container-carde">
             <div class="carde">
                 <img src="imageBundle/BUNDLESULTANSEJATI.png" alt="Bundle Sultan Sejati">
@@ -177,17 +177,27 @@
     </div>
 
 
-    <div class="card">
-        <p class="judul-card">Invoice Pembayaran Kamu!</p>
+    <div class="card" id="invoiceCard">
+        <p class="judul-card">Ringkasan Pesanan Kamu</p>
     
-        <div id="invoiceItems">
-            <!-- Invoice items will be dynamically added here -->
+        <div class="invoice-container">
+            <div class="invoice-header">
+                <p>Rincian Produk</p>
+            </div>
+
+            <div id="invoiceItems">
+                <p class="isi-card" style="color: #6c757d; text-align: center; padding: 20px 0;">
+                    Belum ada produk yang dipilih
+                </p>
+            </div>
+
+            <div class="invoice-total">
+                <p class="total-label">Total Pembayaran</p>
+                <p class="total-amount">
+                    Rp <span id="totalBayar" style="color: #3d52a0;">0</span>
+                </p>
+            </div>
         </div>
-    
-        <hr>
-        <p class="isi-card" style="font-weight: bold; text-decoration: underline;color: black">
-            Total Pembayaran: Rp <span id="totalBayar" style="color: black; font-weight: 900; font-size: 18px;">0</span>
-        </p>
     </div>
 
     <div class="card">
@@ -257,6 +267,9 @@
         </button>
         <div class="content">
             <img class="imageQris" src="Qris/qris_bakulPionir.png" alt="QRIS Code">
+            <a href="Qris/qris_bakulPionir.png" download="QRIS_BakulPionir" class="download-button">
+                <span class="icon">📥</span> Unduh QRIS
+            </a>
         </div>
     
         <input type="file" id="buktiBayarInput" class="input-file" accept="image/jpeg, image/png, image/jpg" required>

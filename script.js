@@ -14,6 +14,7 @@ function showSuccessPopup(link) {
 
 function closeSuccessPopup() {
     document.getElementById("successPopup").style.display = "none";
+    location.reload();
 }
 
 function showLoading() {
@@ -35,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const nomor = document.getElementById("nomorInput").value.trim();
         const fakultas = document.getElementById("fakultas").value;
         const domisili = document.getElementById("domisiliInput").value.trim();
+        const instagram = document.getElementById("instagramInput").value.trim();
         const produkCheckboxes = document.querySelectorAll("input[name='produk']:checked");
         const buktiBayarFile = document.getElementById("buktiBayarInput").files[0];
 
@@ -64,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 nomor,
                 fakultas,
                 domisili,
+                instagram: instagram,
                 produk: produkDipilih,
                 buktiPembayaran: buktiBayarURL,
                 timestamp: window.serverTimestamp()
@@ -572,3 +575,41 @@ function createFlowerParticles() {
         container.appendChild(flower);
     }
 }
+/* ADD THIS TO THE END OF YOUR script.js FILE */
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Select all product checkboxes
+    const productCheckboxes = document.querySelectorAll(".carde input[type='checkbox']");
+
+    productCheckboxes.forEach(checkbox => {
+        // Listen for changes (checked or unchecked)
+        checkbox.addEventListener('change', function() {
+            // Find the closest parent '.carde' element
+            const parentCarde = this.closest('.carde');
+
+            if (parentCarde) {
+                // Toggle the '.selected' class on the parent card
+                // based on whether the checkbox is currently checked.
+                // If this.checked is true, it adds the class.
+                // If this.checked is false, it removes the class.
+                parentCarde.classList.toggle('selected', this.checked);
+            }
+        });
+    });
+});
+
+/* TAMBAHKAN KODE INI DI AKHIR FILE script.js ANDA */
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Ambil semua elemen gambar di dalam halaman
+    const semuaGambar = document.querySelectorAll('img');
+
+    // Lakukan perulangan untuk setiap gambar
+    semuaGambar.forEach(function(gambar) {
+        // Tambahkan event listener untuk 'contextmenu' (event klik kanan)
+        gambar.addEventListener('contextmenu', function(e) {
+            // Mencegah aksi default (yaitu menampilkan menu klik kanan)
+            e.preventDefault();
+        });
+    });
+});
