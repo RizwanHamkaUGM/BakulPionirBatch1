@@ -1003,3 +1003,56 @@ button:hover {
     font-size: inherit;
 }
 
+
+/* === BLOK UNTUK DITAMBAHKAN DI style.css === */
+/* Tambahkan semua gaya ini di akhir file style.css Anda */
+
+#referralContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Jarak antara input dan tombol */
+    margin-top: 10px;
+}
+
+#checkReferralBtn {
+    width: auto; /* Lebar tombol menyesuaikan teks */
+    padding: 11px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 12px;
+    flex-shrink: 0; /* Mencegah tombol menyusut */
+    background-color: #4e4ebe; /* Warna yang serasi */
+}
+
+#checkReferralBtn:hover {
+     background-color: #3d52a0;
+}
+
+#checkReferralBtn:disabled {
+    background-color: #a9a9a9;
+    cursor: not-allowed;
+}
+
+#referralStatus {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    margin-top: 12px;
+    padding: 0 10px;
+    font-size: 14px;
+    min-height: 20px; /* Mencegah layout bergeser saat teks muncul */
+}
+
+#referralStatus.success {
+    color: #28a745; /* Warna hijau untuk sukses */
+}
+
+#referralStatus.error {
+    color: #ff4d4d; /* Warna merah untuk error */
+}
+
+/* Gaya untuk baris diskon di dalam tabel invoice */
+#invoiceItems .invoice-table .invoice-discount-row td {
+    color: #28a745; /* Warna hijau */
+    font-weight: 600;
+    font-size: 15px;
+}

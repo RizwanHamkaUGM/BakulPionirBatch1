@@ -95,6 +95,7 @@
                     <input type="checkbox" id="bundleStylish" name="produk" value="Bundle Stylish">
                 </div>
             </div>
+
                 
             <div class="carde">
                 <img src="imageBundle/BUNDLEPAKETLENGKAP.png" alt="Bundle Paket Lengkap">
@@ -175,6 +176,16 @@
         </div>
     </div>
 
+    <div class="card">
+        <p class="judul-card">Punya Kode Referral?</p>
+        
+        <div id="referralContainer">
+            <input type="text" id="referralInput" class="deskripsi-singkat" placeholder="Masukkan kode di sini" style="color: white !important; margin: 0 !important;">
+            <button id="checkReferralBtn">Gunakan Kode</button>
+        </div>
+        
+        <p id="referralStatus"></p> 
+    </div>
 
     <div class="card" id="invoiceCard">
         <p class="judul-card">Ringkasan Pesanan Kamu</p>
@@ -278,11 +289,6 @@
         </label>
     </div>
 
-    <div class="card">
-        <p class="judul-card">Kode referral (opsional)</p>
-        <input type="tel" id="referralInput" class="deskripsi-singkat" placeholder="Kosongkan jika tidak ada" required>
-    </div>
-
     <div class="card" id="submitCard"  style="cursor: pointer; text-align: center; background-color: #ffcc00; padding: 15px; font-weight: bold;">
         <p class="judul-card">Klik untuk Kirim Pesanan!</p>
     </div>
@@ -311,8 +317,9 @@
 
     <script type="module">
         // Ganti dengan konfigurasi Firebase milikmu
+        // TAMBAHKAN 'collection' dan 'getDocs' pada baris import di bawah ini
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, serverTimestamp, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         const firebaseConfig = {
             apiKey: "AIzaSyCqGTr_7aEWgbV2eZ4XG4qW6GBpZ1xwFhU",
             authDomain: "bakul-pionir.firebaseapp.com",
@@ -331,6 +338,9 @@
         window.doc = doc;
         window.setDoc = setDoc;
         window.serverTimestamp = serverTimestamp;
+        // TAMBAHKAN DUA BARIS DI BAWAH INI
+        window.collection = collection;
+        window.getDocs = getDocs;
     </script>
     <script src="script.js"></script>
 </body>

@@ -26,93 +26,86 @@ function hideLoading() {
 }
 
 let selectedProducts = {};
-    
+let isDiscountApplied = false;
+let appliedReferralCode = "";
 
 document.addEventListener("DOMContentLoaded", function () {
     const submitCard = document.getElementById("submitCard");
-
+    const checkReferralBtn = document.getElementById('checkReferralBtn');
+    if (checkReferralBtn) {
+        checkReferralBtn.addEventListener('click', checkReferralCode);
+    }
     submitCard.addEventListener("click", async function () {
-        const nama = document.getElementById("namaInput").value.trim();
-        const nomor = document.getElementById("nomorInput").value.trim();
-        const fakultas = document.getElementById("fakultas").value;
-        const domisili = document.getElementById("domisiliInput").value.trim();
-        const instagram = document.getElementById("instagramInput").value.trim();
-        const produkCheckboxes = document.querySelectorAll("input[name='produk']:checked");
-        const buktiBayarFile = document.getElementById("buktiBayarInput").files[0];
-        const referral = document.getElementById("referralInput").value.trim();
+            const nama = document.getElementById("namaInput").value.trim();
+            const nomor = document.getElementById("nomorInput").value.trim();
+            const fakultas = document.getElementById("fakultas").value;
+            const domisili = document.getElementById("domisiliInput").value.trim();
+            const instagram = document.getElementById("instagramInput").value.trim();
+            const produkCheckboxes = document.querySelectorAll("input[name='produk']:checked");
+            const buktiBayarFile = document.getElementById("buktiBayarInput").files[0];
+            // HAPUS BARIS INI -> const referral = document.getElementById("referralInput").value.trim();
 
-        // Ambil produk yang dipilih
-        const produkDipilih = Object.entries(selectedProducts).map(([nama, detail]) => ({
-            nama,
-            jumlah: detail.quantity,
-        }));  
-        
-
-        if (!nama) {
-            showErrorPopup("Harap isi nama Anda.");
-            return;
-        }
-        // Cek jika nomor kosong
-        else if (!nomor) {
-            showErrorPopup("Harap isi nomor Anda.");
-            return;
-        }
-        // Cek jika fakultas kosong
-        else if (!fakultas) {
-            showErrorPopup("Harap isi fakultas Anda.");
-            return;
-        }
-        // Cek jika domisili kosong
-        else if (!domisili) {
-            showErrorPopup("Harap isi domisili Anda.");
-            return;
-        }
-        // Cek jika tidak ada produk yang dipilih
-        else if (produkDipilih.length === 0) {
-            showErrorPopup("Harap pilih minimal satu produk.");
-            return;
-        }
-
-        else if (!buktiBayarFile) {
-            showErrorPopup("Harap unggah bukti pembayaran Anda.");
-            return;
-        }
-
-
-
-        try {
-            showLoading();
-            // Upload gambar ke ImgBB
-            const buktiBayarURL = await uploadToImgBB(buktiBayarFile);
-            if (!buktiBayarURL) throw new Error("Gagal mengunggah gambar!");
-
-            // Simpan data pesanan di Firestore
-            const orderRef = window.doc(window.db, "BakulPionirBatch2", nama + "_" + Date.now());
-            await window.setDoc(orderRef, {
+            const produkDipilih = Object.entries(selectedProducts).map(([nama, detail]) => ({
                 nama,
-                nomor,
-                fakultas,
-                domisili,
-                instagram: instagram,
-                produk: produkDipilih,
-                buktiPembayaran: buktiBayarURL,
-                kodeReferral: referral,
-                timestamp: window.serverTimestamp()
-            });
-            hideLoading();
-            showSuccessPopup("https://chat.whatsapp.com/G1WXDNLlPV09JvHrwlfFNS");
-            // Reset form setelah berhasil dikirim
-            document.getElementById("namaInput").value = "";
-            document.getElementById("nomorInput").value = "";
-            document.getElementById("fakultas").value = "";
-            document.getElementById("domisiliInput").value = "";
-            document.getElementById("buktiBayarInput").value = "";
-            produkCheckboxes.forEach(checkbox => (checkbox.checked = false));
-        } catch (error) {
-            console.error("Terjadi kesalahan:", error);
-            alert("Gagal mengirim pesanan. Silakan coba lagi.");
-        }
-    });
+                jumlah: detail.quantity,
+            }));  
+
+            if (!nama) {
+                showErrorPopup("Harap isi nama Anda.");
+                return;
+            }
+            else if (!nomor) {
+                showErrorPopup("Harap isi nomor Anda.");
+                return;
+            }
+            else if (!fakultas) {
+                showErrorPopup("Harap isi fakultas Anda.");
+                return;
+            }
+            else if (!domisili) {
+                showErrorPopup("Harap isi domisili Anda.");
+                return;
+            }
+            else if (produkDipilih.length === 0) {
+                showErrorPopup("Harap pilih minimal satu produk.");
+                return;
+            }
+            else if (!buktiBayarFile) {
+                showErrorPopup("Harap unggah bukti pembayaran Anda.");
+                return;
+            }
+
+            try {
+                showLoading();
+                const buktiBayarURL = await uploadToImgBB(buktiBayarFile);
+                if (!buktiBayarURL) throw new Error("Gagal mengunggah gambar!");
+
+                const orderRef = window.doc(window.db, "BakulPionirBatch2", nama + "_" + Date.now());
+                await window.setDoc(orderRef, {
+                    nama,
+                    nomor,
+                    fakultas,
+                    domisili,
+                    instagram: instagram,
+                    produk: produkDipilih,
+                    buktiPembayaran: buktiBayarURL,
+                    // GANTI `kodeReferral: referral` DENGAN BARIS DI BAWAH INI
+                    kodeReferral: appliedReferralCode, 
+                    timestamp: window.serverTimestamp()
+                });
+                hideLoading();
+                showSuccessPopup("https://chat.whatsapp.com/G1WXDNLlPV09JvHrwlfFNS");
+                document.getElementById("namaInput").value = "";
+                document.getElementById("nomorInput").value = "";
+                document.getElementById("fakultas").value = "";
+                document.getElementById("domisiliInput").value = "";
+                document.getElementById("buktiBayarInput").value = "";
+                produkCheckboxes.forEach(checkbox => (checkbox.checked = false));
+            } catch (error) {
+                console.error("Terjadi kesalahan:", error);
+                alert("Gagal mengirim pesanan. Silakan coba lagi.");
+            }
+        });
 
     async function uploadToImgBB(file) {
         const apiKey = "37d116ae15604008c48ca23ecd80123a"; // Ganti dengan API Key dari ImgBB
@@ -400,115 +393,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateInvoice();
     }
     
-    // Function to update the invoice
-    function updateInvoice() {
-        console.log("Updating invoice, selected products:", selectedProducts);
-        
-        const invoiceItemsDiv = document.getElementById('invoiceItems');
-        const totalBayarSpan = document.getElementById('totalBayar');
-        
-        if (!invoiceItemsDiv || !totalBayarSpan) {
-            console.error("Invoice elements not found!");
-            return;
-        }
-        
-        // Clear current invoice items
-        invoiceItemsDiv.innerHTML = '';
-        
-        if (Object.keys(selectedProducts).length === 0) {
-            // If no products selected, show message
-            invoiceItemsDiv.innerHTML = '<p class="isi-card" style="color: black;">Belum ada produk yang dipilih</p>';
-            totalBayarSpan.textContent = '0';
-            return;
-        }
-        
-        // Create table for invoice
-        const table = document.createElement('table');
-        table.className = 'invoice-table';
-        
-        // Create table header
-        const thead = document.createElement('thead');
-        const headerRow = document.createElement('tr');
-        
-        const headers = ['Produk', 'Kuantitas', 'Harga'];
-        headers.forEach(text => {
-            const th = document.createElement('th');
-            th.textContent = text;
-            headerRow.appendChild(th);
-        });
-        
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-        
-        // Create table body
-        const tbody = document.createElement('tbody');
-        
-        // Add each product to the invoice table
-        let totalPrice = 0;
-        
-        // Use a try-catch block to handle any potential errors
-        try {
-            for (const [productName, details] of Object.entries(selectedProducts)) {
-                const row = document.createElement('tr');
-                
-                // Product name cell
-                const nameCell = document.createElement('td');
-                nameCell.textContent = productName;
-                row.appendChild(nameCell);
-                
-                // Quantity cell with dropdown
-                const quantityCell = document.createElement('td');
-                const quantitySelect = document.createElement('select');
-                quantitySelect.className = 'quantity-dropdown';
-                
-                // Add options 1-10
-                for (let i = 1; i <= 10; i++) {
-                    const option = document.createElement('option');
-                    option.value = i;
-                    option.textContent = i;
-                    if (i === details.quantity) {
-                        option.selected = true;
-                    }
-                    quantitySelect.appendChild(option);
-                }
-                
-                // Add event listener to quantity dropdown
-                quantitySelect.dataset.product = productName; // Store product name in dataset
-                quantitySelect.addEventListener('change', function() {
-                    const prodName = this.dataset.product;
-                    console.log(`Quantity changed for ${prodName} to ${this.value}`);
-                    if (selectedProducts[prodName]) {
-                        selectedProducts[prodName].quantity = parseInt(this.value);
-                        updateInvoice();
-                    }
-                });
-                
-                quantityCell.appendChild(quantitySelect);
-                row.appendChild(quantityCell);
-                
-                // Price cell
-                const priceCell = document.createElement('td');
-                const itemTotal = details.price * details.quantity;
-                priceCell.textContent = formatRupiah(itemTotal);
-                priceCell.className = 'price-cell';
-                row.appendChild(priceCell);
-                
-                // Add to total
-                totalPrice += itemTotal;
-                
-                tbody.appendChild(row);
-            }
-        } catch (err) {
-            console.error("Error in invoice update:", err);
-            invoiceItemsDiv.innerHTML = '<p class="isi-card">Terjadi kesalahan saat memperbarui invoice</p>';
-        }
-        
-        table.appendChild(tbody);
-        invoiceItemsDiv.appendChild(table);
-        
-        // Update total price - ensure we have a valid number
-        totalBayarSpan.textContent = formatRupiah(totalPrice || 0).replace('Rp ', '');
-    }
+
     
     // Helper function to format price as Rupiah
     function formatRupiah(number) {
@@ -541,7 +426,6 @@ document.addEventListener("DOMContentLoaded", function () {
         observer.observe(card);
     });
 });
-
 
 // Letakkan kode ini di dalam salah satu event listener DOMContentLoaded yang sudah ada
 document.addEventListener("DOMContentLoaded", function () {
@@ -642,3 +526,174 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const checkReferralBtn = document.getElementById('checkReferralBtn');
+    if(checkReferralBtn) {
+        checkReferralBtn.addEventListener('click', checkReferralCode);
+    }
+});
+
+// ==========================================================
+// === SALIN SEMUA KODE DI DALAM BLOK INI UNTUK FITUR REFERRAL ===
+// ==========================================================
+
+/**
+ * Memperbarui tampilan invoice/ringkasan pesanan.
+ * Fungsi ini sekarang global dan bisa diakses dari mana saja.
+ */
+function updateInvoice() {
+    const invoiceItemsDiv = document.getElementById('invoiceItems');
+    const totalBayarSpan = document.getElementById('totalBayar');
+
+    // Pastikan elemen ada sebelum melanjutkan
+    if (!invoiceItemsDiv || !totalBayarSpan) {
+        console.error("Elemen invoice tidak ditemukan!");
+        return;
+    }
+
+    invoiceItemsDiv.innerHTML = '';
+
+    // Jika tidak ada produk, tampilkan pesan dan reset total
+    if (Object.keys(selectedProducts).length === 0) {
+        invoiceItemsDiv.innerHTML = '<p class="isi-card" style="color: black; text-align: center; padding: 20px 0;">Belum ada produk yang dipilih</p>';
+        totalBayarSpan.textContent = '0';
+        return;
+    }
+
+    const table = document.createElement('table');
+    table.className = 'invoice-table';
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    ['Produk', 'Kuantitas', 'Harga'].forEach(text => {
+        const th = document.createElement('th');
+        th.textContent = text;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    let subtotal = 0;
+
+    // Loop melalui produk yang dipilih untuk mengisi tabel
+    for (const [productName, details] of Object.entries(selectedProducts)) {
+        const row = document.createElement('tr');
+        
+        // Sel Nama Produk
+        const nameCell = document.createElement('td');
+        nameCell.textContent = productName;
+        row.appendChild(nameCell);
+
+        // Sel Kuantitas
+        const quantityCell = document.createElement('td');
+        const quantitySelect = document.createElement('select');
+        quantitySelect.className = 'quantity-dropdown';
+        for (let i = 1; i <= 10; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            if (i === details.quantity) option.selected = true;
+            quantitySelect.appendChild(option);
+        }
+        quantitySelect.dataset.product = productName;
+        quantitySelect.addEventListener('change', function() {
+            if (selectedProducts[this.dataset.product]) {
+                selectedProducts[this.dataset.product].quantity = parseInt(this.value);
+                updateInvoice();
+            }
+        });
+        quantityCell.appendChild(quantitySelect);
+        row.appendChild(quantityCell);
+
+        // Sel Harga
+        const priceCell = document.createElement('td');
+        const itemTotal = details.price * details.quantity;
+        priceCell.textContent = 'Rp ' + itemTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        priceCell.className = 'price-cell';
+        row.appendChild(priceCell);
+        
+        subtotal += itemTotal;
+        tbody.appendChild(row);
+    }
+    table.appendChild(tbody);
+
+    // Buat footer untuk total dan diskon
+    const tfoot = document.createElement('tfoot');
+    
+    let finalTotal = subtotal;
+
+    // Jika diskon diterapkan, tambahkan baris diskon
+    if (isDiscountApplied && subtotal > 0) {
+        const discountAmount = subtotal * 0.05;
+        finalTotal = subtotal - discountAmount;
+        const discountRow = tfoot.insertRow();
+        discountRow.className = 'invoice-discount-row';
+        const discountLabelCell = discountRow.insertCell();
+        discountLabelCell.colSpan = 2;
+        discountLabelCell.textContent = 'Diskon Referral (5%)';
+        const discountValueCell = discountRow.insertCell();
+        discountValueCell.className = 'price-cell';
+        discountValueCell.textContent = `- Rp ${discountAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+    }
+    
+    table.appendChild(tfoot);
+    invoiceItemsDiv.appendChild(table);
+
+    // Perbarui Tampilan Total Pembayaran Final
+    totalBayarSpan.textContent = finalTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+
+/**
+ * Memverifikasi kode referral ke Firebase.
+ */
+async function checkReferralCode() {
+    const referralInput = document.getElementById('referralInput');
+    const code = referralInput.value.trim().toUpperCase();
+    const statusEl = document.getElementById('referralStatus');
+    const checkBtn = document.getElementById('checkReferralBtn');
+
+    if (!code) {
+        statusEl.textContent = "Kolom kode referral tidak boleh kosong.";
+        statusEl.className = 'error';
+        return;
+    }
+
+    showLoading();
+    try {
+        const referralQuery = window.collection(window.db, "KodeReferral");
+        const querySnapshot = await window.getDocs(referralQuery);
+        let codeIsValid = false;
+
+        querySnapshot.forEach((doc) => {
+            if (doc.data()["Kode referralnya"] && doc.data()["Kode referralnya"].toUpperCase() === code) {
+                codeIsValid = true;
+            }
+        });
+
+        if (codeIsValid) {
+            isDiscountApplied = true;
+            appliedReferralCode = code;
+            statusEl.textContent = "Kode valid! Diskon 5% telah diterapkan.";
+            statusEl.className = 'success';
+            referralInput.disabled = true;
+            checkBtn.disabled = true;
+        } else {
+            statusEl.textContent = "Kode referral tidak valid atau tidak ditemukan.";
+            statusEl.className = 'error';
+        }
+        
+        updateInvoice(); // Panggil fungsi updateInvoice yang sekarang sudah benar
+
+    } catch (error) {
+        console.error("Error checking referral code: ", error);
+        statusEl.textContent = "Gagal memverifikasi kode. Periksa koneksi Anda.";
+        statusEl.className = 'error';
+    } finally {
+        hideLoading();
+    }
+}
+
+// ==========================================================
+// === AKHIR DARI BLOK KODE REFERRAL ==========================
+// ==========================================================
