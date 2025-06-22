@@ -4,6 +4,16 @@
         "source": "/meet",
         "destination": "https://meet.google.com/xwn-pvtt-rjn",
         "permanent": true
+        },
+        {
+        "source": "/datapenjualan",
+        "destination": "https://rizwanhamka.github.io/DataBatch1/",
+        "permanent": true
+        },
+        {
+        "source": "/referral",
+        "destination": "https://rizwanhamka.github.io/DashboardReferralBakulPionir/",
+        "permanent": true
         }
     ]
 }
