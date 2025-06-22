@@ -120,7 +120,7 @@ html, body {
 }
 
 .deskripsi-singkat {
-    width: 24% ;
+    width: 34% ;
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     padding: 10px 10px;
@@ -248,7 +248,7 @@ input[type='file'] {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%;
+    width: 30%;
     background: #ff4d4d;
     color: white;
     padding: 20px;
@@ -270,6 +270,7 @@ input[type='file'] {
 
 .popup-error button {
     margin-top: 10px;
+    width: fit-content  ;
     background: white;
     color: #ff4d4d;
     border: none;
@@ -491,7 +492,7 @@ button:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%;
+    width: 60%;
     max-width: 400px;
     background: #28a745;
     color: white;

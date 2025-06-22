@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const instagram = document.getElementById("instagramInput").value.trim();
         const produkCheckboxes = document.querySelectorAll("input[name='produk']:checked");
         const buktiBayarFile = document.getElementById("buktiBayarInput").files[0];
+        const referral = document.getElementById("referralInput").value.trim();
 
         // Ambil produk yang dipilih
         const produkDipilih = Object.entries(selectedProducts).map(([nama, detail]) => ({
@@ -47,11 +48,37 @@ document.addEventListener("DOMContentLoaded", function () {
         }));  
         
 
-        // Validasi input tidak boleh kosong
-        if (!nama || !nomor || !fakultas || !domisili || produkDipilih.length === 0 || !buktiBayarFile) {
-            showErrorPopup("Harap isi semua data dan unggah bukti pembayaran.");
+        if (!nama) {
+            showErrorPopup("Harap isi nama Anda.");
             return;
         }
+        // Cek jika nomor kosong
+        else if (!nomor) {
+            showErrorPopup("Harap isi nomor Anda.");
+            return;
+        }
+        // Cek jika fakultas kosong
+        else if (!fakultas) {
+            showErrorPopup("Harap isi fakultas Anda.");
+            return;
+        }
+        // Cek jika domisili kosong
+        else if (!domisili) {
+            showErrorPopup("Harap isi domisili Anda.");
+            return;
+        }
+        // Cek jika tidak ada produk yang dipilih
+        else if (produkDipilih.length === 0) {
+            showErrorPopup("Harap pilih minimal satu produk.");
+            return;
+        }
+
+        else if (!buktiBayarFile) {
+            showErrorPopup("Harap unggah bukti pembayaran Anda.");
+            return;
+        }
+
+
 
         try {
             showLoading();
@@ -69,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 instagram: instagram,
                 produk: produkDipilih,
                 buktiPembayaran: buktiBayarURL,
+                kodeReferral: referral,
                 timestamp: window.serverTimestamp()
             });
             hideLoading();
