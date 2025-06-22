@@ -1,0 +1,9 @@
+{
+    "redirects": [
+        {
+        "source": "/meet",
+        "destination": "https://meet.google.com/xwn-pvtt-rjn",
+        "permanent": true
+        }
+    ]
+}
