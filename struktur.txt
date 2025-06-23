@@ -1,0 +1,40 @@
+Folder PATH listing
+Volume serial number is 00000014 F4EA:B9DB
+C:\CODE\BAKULPIONIRBATCH1
+|   BAKULPIONIR.png
+|   bunga.png
+|   favicon.png
+|   index.html (ini adalah main page untuk form)
+|   script.js
+|   struktur.txt
+|   style.css
+|   vercel.json
+|   
++---.vscode
+|       settings.json
+|       
++---3D
+|       BLUELANYARD.glb
+|       PINKLANYARD.glb
+|       
++---imageBundle
+|       BUNDLEEKSEKUTIFPIONIR.png
+|       BUNDLEPAKETLENGKAP.png
+|       BUNDLEPEJUANGHEMAT.png
+|       BUNDLESTARTER.png
+|       BUNDLESTYLISH.png
+|       BUNDLESULTANSEJATI.png
+|       CAPING.png
+|       DASI.png
+|       LANYARD.png
+|       LANYARDBIRU.png
+|       LANYARDPINK.png
+|       STICKER.png
+|       TOTEBAG.png
+|       
++---katalog
+|       index.html (ini page yang saya ingin tingkatkan)
+|       
+\---Qris
+        qris_bakulPionir.png
+        
