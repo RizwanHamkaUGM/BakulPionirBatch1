@@ -211,15 +211,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (selectDropdown) {
             selectDropdown.style.backgroundColor = selectedColor.text;
         }
-        let cardes = card.querySelectorAll(".carde");
-        cardes.forEach(carde => {
-            carde.style.backgroundColor = selectedColor.text;
-        });
+        // let cardes = card.querySelectorAll(".carde");
+        // cardes.forEach(carde => {
+        //     carde.style.backgroundColor = selectedColor.text;
+        // });
         
-        let cardeTexts = card.querySelectorAll(".carde-text");
-        cardeTexts.forEach(text => {
-            text.style.color = selectedColor.bg;
-        });
+        // let cardeTexts = card.querySelectorAll(".carde-text");
+        // cardeTexts.forEach(text => {
+        //     text.style.color = selectedColor.bg;
+        // });
         
     });
 

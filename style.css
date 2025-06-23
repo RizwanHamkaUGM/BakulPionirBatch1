@@ -295,6 +295,7 @@ input[type='file'] {
     height: max-content;
     text-align: center;
     border: 2px solid #4e4ebe;
+    background-color: #ffffff;
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s ease, opacity 0.3s ease;
@@ -323,6 +324,7 @@ input[type='file'] {
     font-style: normal;
     padding: 0px 10px;
     font-size: 17px;
+    color: #4e4ebe;
 }
 
 .checkbox-wrapper {
