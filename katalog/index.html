@@ -396,7 +396,7 @@
             const particleContainer = document.getElementById('particle-container');
             if (particleContainer && !particleContainer.hasChildNodes()) {
                 const numberOfParticles = window.innerWidth < 768 ? 15 : 20;
-                const flowerImage = 'bunga.png';
+                const flowerImage = '../bunga.png';
                 for (let i = 0; i < numberOfParticles; i++) {
                     let p = document.createElement('img');
                     p.src = flowerImage; p.classList.add('particle-flower'); p.loading = 'lazy';
