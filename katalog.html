@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Katalog Produk - Bakul Pionir</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    
+    <style>
+        /* === KOREKSI STYLE AGAR SAMA SEPERTI MAIN PAGE === */
+
+        html, body {
+            overflow-x: hidden;
+            font-family: 'Poppins', sans-serif; /* Font utama diubah */
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin-top: 20px;
+            background-color: #f5fcfd; /* Latar belakang disamakan dengan index.html */
+            position: relative;
+        }
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 200vh;
+            background-image: url('grid.png');
+            background-size: contain;
+            background-repeat: repeat;
+            background-position: center;
+            z-index: -2; /* Disesuaikan dengan style.css */
+        }
+        #particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .particle-flower {
+            position: absolute;
+            animation: spin linear infinite;
+            opacity: 0.7;
+        }
+
+        #catalog-view {
+            width: 100%; display: flex; flex-direction: column; align-items: center;
+        }
+        .title {
+            width: 60%; /* Lebar disamakan */
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+        .title img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* Styling .card disamakan dengan style.css */
+        .card {
+            width: 60%;
+            height: fit-content;
+            padding: 20px;
+            border-radius: 20px;
+            background-color: #ffffff;
+            color: #3d52a0;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0px 8px 15px rgba(61, 82, 160, 0.15);
+            margin-top: 10px;
+            border: #d4deff solid 4px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 12px 22px rgba(61, 82, 160, 0.2);
+        }
+
+        /* Styling .judul-card dan .isi-card disamakan */
+        .judul-card {
+            font-weight: 700;
+            font-size: 25px;
+            color: #3d52a0; /* Warna diubah agar terlihat di background putih */
+            padding: 0 10px;
+            text-align: center;
+        }
+        .isi-card {
+            font-weight: 400;
+            font-size: 15px;
+            color: #3d52a0; /* Warna diubah */
+            padding: 0px 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-container-carde {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px; /* Jarak antar kartu */
+        }
+
+        /* Styling .carde disamakan dari style.css (menggantikan .katalog-card) */
+        .carde {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 16px;
+            width: 280px;
+            text-align: center;
+            border: 2px solid #4e4ebe;
+            overflow: hidden;
+            cursor: pointer;
+            padding-bottom: 20px;
+            margin-bottom: 10px;
+            max-height: 340px;
+            box-sizing: border-box;
+            background-color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .carde:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(78, 78, 190, 0.25);
+        }
+        .carde img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        .carde-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-style: normal;
+            padding: 0px 10px;
+            font-size: 17px;
+            color: #3d52a0;
+        }
+
+        .ender {
+            height: 100px;
+            width: 60%;
+            margin-top: 40px;
+        }
+        
+        /* Loading Indicator (Spinner & Text only) */
+        .model-viewer-progress {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            opacity: 1;
+            visibility: visible;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .model-viewer-progress.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .progress-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .progress-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #3d52a0;
+            margin: 0;
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.7);
+        }
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(61, 82, 160, 0.2);
+            border-top: 4px solid #4e4ebe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Model Viewer Overlay */
+        .model-view-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(245, 252, 253, 0.95), rgba(230, 240, 255, 0.95));
+            backdrop-filter: blur(15px);
+            z-index: 10000; display: none; justify-content: center; align-items: center;
+            flex-direction: column; padding: 20px; box-sizing: border-box;
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .model-view-overlay model-viewer {
+            width: 100%; height: 80vh; max-width: 800px; border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(61, 82, 160, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .model-controls {
+            display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; justify-content: center;
+        }
+
+        /* Control Buttons */
+        .control-button {
+            padding: 14px 28px;
+            background-color: #4e4ebe;
+            color: white; border: none; border-radius: 25px; cursor: pointer;
+            font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 600;
+            text-decoration: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 20px rgba(78, 78, 190, 0.3);
+        }
+        .control-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(78, 78, 190, 0.4);
+        }
+
+        /* General Loading Overlay */
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6); z-index: 9999;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+        }
+        .loading-overlay.fade-out {
+            opacity: 0; transition: opacity 0.5s ease-out, visibility 0.5s ease-out; visibility: hidden;
+        }
+
+        /* === RESPONSIVE RULES === */
+        @media (max-width: 768px) {
+            .title { width: 70%; }
+            .card { width: 90%; }
+            .carde { width: 220px; }
+            .control-button { font-size: 14px; padding: 12px 24px; }
+            .model-view-overlay model-viewer { height: 75vh; }
+        }
+
+        @media (max-width: 431px) {
+            body { margin-top: 15px; }
+            .title { width: 85%; }
+            .card { width: 90%; padding: 15px; }
+            .judul-card { font-size: 20px; }
+            .isi-card { font-size: 14px; }
+            .checkbox-container-carde { gap: 15px; }
+            .carde { width: 45%; max-height: none; padding-bottom: 15px; }
+            .carde img { height: 150px; }
+            .carde-text { font-size: 14px; }
+            .control-button { font-size: 13px; padding: 10px 20px; }
+            .progress-text { font-size: 14px; }
+            .card:hover, .carde:hover { transform: none; } /* Nonaktifkan hover di mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loadingOverlay" class="loading-overlay" style="display: flex;">
+        <div class="spinner"></div>
+        <p style="color: white; font-weight: bold; margin-top: 10px; font-family: 'Poppins', sans-serif;">Memuat Katalog...</p>
+    </div>
+
+    <div class="parallax-bg"></div>
+    <div id="particle-container"></div>
+
+    <div id="catalog-view">
+        <div class="title">
+            <img src="BAKULPIONIR.png" alt="Bakul Pionir Logo">
+        </div>
+
+        <div class="card">
+            <p class="judul-card">Katalog 3D Atribut Bakul Pionir</p>
+            <p class="isi-card">
+                Klik pada gambar untuk melihat pratinjau 3D secara interaktif.
+            </p>
+            <div class="checkbox-container-carde">
+                <div class="carde" id="showBlueLanyard" tabindex="0" role="button" aria-label="Lihat model 3D Lanyard Biru">
+                    <img src="imageBundle/LANYARDBIRU.png" alt="Lanyard Biru">
+                    <label class="carde-text">Lanyard Biru</label>
+                </div>
+                <div class="carde" id="showPinkLanyard" tabindex="0" role="button" aria-label="Lihat model 3D Lanyard Pink">
+                    <img src="imageBundle/LANYARDPINK.png" alt="Lanyard Pink" onerror="this.src='imageBundle/LANYARD.png';">
+                    <label class="carde-text">Lanyard Pink</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ender"></div>
+    </div>
+
+    <div id="blueLanyardView" class="model-view-overlay">
+        <model-viewer src="3D/BLUELANYARD.glb" alt="3D Model of Blue Lanyard" camera-controls auto-rotate ar>
+            <div class="model-viewer-progress" slot="progress-bar">
+                <div class="progress-content">
+                    <div class="loading-spinner"></div>
+                    <p class="progress-text">Memuat Model 3D...</p>
+                </div>
+            </div>
+        </model-viewer>
+        <div class="model-controls">
+            <button class="control-button back-to-catalog">❮ Kembali</button>
+            <a href="https://www.bakulpionir.shop/" class="control-button" target="_blank" rel="noopener noreferrer">Beli Sekarang!</a>
+        </div>
+    </div>
+
+    <div id="pinkLanyardView" class="model-view-overlay">
+        <model-viewer src="3D/PINKLANYARD.glb" alt="3D Model of Pink Lanyard" camera-controls auto-rotate ar>
+            <div class="model-viewer-progress" slot="progress-bar">
+                <div class="progress-content">
+                    <div class="loading-spinner"></div>
+                    <p class="progress-text">Memuat Model 3D...</p>
+                </div>
+            </div>
+        </model-viewer>
+        <div class="model-controls">
+            <button class="control-button back-to-catalog">❮ Kembali</button>
+            <a href="https://www.bakulpionir.shop/" class="control-button" target="_blank" rel="noopener noreferrer">Beli Sekarang!</a>
+        </div>
+    </div>
+
+    <script>
+        // JS disesuaikan untuk selector .carde
+        window.onload = function() {
+            document.getElementById('loadingOverlay').classList.add('fade-out');
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const catalogView = document.getElementById('catalog-view');
+            const showBlueBtn = document.getElementById('showBlueLanyard');
+            const showPinkBtn = document.getElementById('showPinkLanyard');
+            const blueView = document.getElementById('blueLanyardView');
+            const pinkView = document.getElementById('pinkLanyardView');
+            const backButtons = document.querySelectorAll('.back-to-catalog');
+            const body = document.body;
+
+            function setupProgressTracking(modelViewer) {
+                const progressElement = modelViewer.querySelector('.model-viewer-progress');
+                const onModelLoad = () => {
+                    setTimeout(() => { progressElement.classList.add('hide'); }, 500);
+                };
+                if (modelViewer.loaded) { onModelLoad(); }
+                modelViewer.addEventListener('load', onModelLoad, { once: true });
+                const fallbackTimer = setTimeout(onModelLoad, 8000);
+                modelViewer.addEventListener('error', () => {
+                    clearTimeout(fallbackTimer);
+                    const progressText = progressElement.querySelector('.progress-text');
+                    if(progressText) { progressText.textContent = 'Gagal memuat model.'; }
+                }, { once: true });
+            }
+
+            function triggerHapticFeedback() {
+                if ('vibrate' in navigator) { navigator.vibrate(50); }
+            }
+
+            function showOverlay(overlayElement) {
+                triggerHapticFeedback();
+                catalogView.style.display = 'none';
+                overlayElement.style.display = 'flex';
+                body.style.overflow = 'hidden';
+                const modelViewer = overlayElement.querySelector('model-viewer');
+                const progressElement = overlayElement.querySelector('.model-viewer-progress');
+                progressElement.classList.remove('hide');
+                setTimeout(() => { setupProgressTracking(modelViewer); }, 50);
+            }
+
+            function hideOverlays() {
+                triggerHapticFeedback();
+                blueView.style.display = 'none';
+                pinkView.style.display = 'none';
+                catalogView.style.display = 'flex';
+                body.style.overflow = 'auto';
+            }
+
+            showBlueBtn.addEventListener('click', () => showOverlay(blueView));
+            showPinkBtn.addEventListener('click', () => showOverlay(pinkView));
+            showBlueBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showOverlay(blueView); } });
+            showPinkBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showOverlay(pinkView); } });
+            backButtons.forEach(button => {
+                button.addEventListener('click', hideOverlays);
+                button.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); hideOverlays(); } });
+            });
+
+            const particleContainer = document.getElementById('particle-container');
+            if (particleContainer && !particleContainer.hasChildNodes()) {
+                const numberOfParticles = window.innerWidth < 768 ? 15 : 20;
+                const flowerImage = 'bunga.png';
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let p = document.createElement('img');
+                    p.src = flowerImage; p.classList.add('particle-flower'); p.loading = 'lazy';
+                    const s = Math.random() * 25 + 15;
+                    p.style.width = `${s}px`; p.style.height = `${s}px`;
+                    p.style.top = `${Math.random() * 100}vh`; p.style.left = `${Math.random() * 100}vw`;
+                    p.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                    p.style.animationDelay = `${Math.random() * 5}s`;
+                    particleContainer.appendChild(p);
+                }
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    entry.target.style.willChange = entry.isIntersecting ? 'transform' : 'auto';
+                });
+            });
+            // Observer diubah untuk menargetkan .carde
+            document.querySelectorAll('.carde').forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
+
+</body>
+</html>
