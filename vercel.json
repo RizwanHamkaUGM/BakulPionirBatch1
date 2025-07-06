@@ -14,6 +14,11 @@
         "source": "/referral",
         "destination": "https://rizwanhamka.github.io/DashboardReferralBakulPionir/",
         "permanent": true
+        },
+        {
+        "source": "/lanyard",
+        "destination": "https://docs.google.com/forms/d/e/1FAIpQLSeC9t8PmABv8ltiK-UOxpUCUrGbMNOxziFG1Md0IXw4PyfpUg/viewform?usp=sharing&ouid=115040121927097116929",
+        "permanent": true
         }
     ]
 }
