@@ -82,98 +82,14 @@
         
         <div class="checkbox-container-carde">
             <div class="carde">
-                <img src="imageBundle/BUNDLESULTANSEJATI.png" alt="Bundle Sultan Sejati">
+                <img src="../imageBundle/BUNDLESULTANSEJATI.png" alt="Bundle Sultan Sejati">
                 <label for="bundleSultan" class="carde-text">Bundle Sultan(85K)</label>
                 <div class="checkbox-wrapper">
                     <input type="checkbox" id="bundleSultan" name="produk" value="Bundle Sultan Sejati">
                 </div>
             </div>
             
-            <div class="carde">
-                <img src="imageBundle/BUNDLESTYLISH.png" alt="Bundle Stylish">
-                <label for="bundleStylish" class="carde-text">Bundle Stylish (75K)</label>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="bundleStylish" name="produk" value="Bundle Stylish">
-                </div>
-            </div>
-
-                
-            <div class="carde">
-                <img src="imageBundle/BUNDLEPAKETLENGKAP.png" alt="Bundle Paket Lengkap">
-                <label for="bundleLengkap" class="carde-text">Bundle Paket Lengkap (60K)</label>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="bundleLengkap" name="produk" value="Bundle Paket Lengkap">
-                </div>
-            </div>
             
-            <div class="carde">
-                <img src="imageBundle/BUNDLEEKSEKUTIFPIONIR.png" alt="Bundle eks">
-                <label for="bundleEksekutifPionir" class="carde-text">Bundle Eksekutif(40K)</label>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="bundleEksekutifPionir" name="produk" value="bundle Eksekutif Pionir">
-                </div>
-            </div>
-            
-            <div class="carde">
-                <img src="imageBundle/BUNDLESTARTER.png" alt="Bundle eks">
-                <label for="bundleStarter" class="carde-text">Bundle Starter (45K)</label>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="bundleStarter" name="produk" value="bundle Starter">
-                </div>
-            </div>
-
-            <div class="carde">
-                <img src="imageBundle/BUNDLEPEJUANGHEMAT.png" alt="Bundle eks">
-                <label for="bundlePejuangHemat" class="carde-text">Bundle Pejuang (35K)</label>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="bundlePejuangHemat" name="produk" value="bundle Pejuang">
-                </div>
-            </div>
-
-            <div class="carde">
-                <img src="imageBundle/CAPING.png" alt="Bundle eks">
-                <label for="caping" class="carde-text">Caping Warna (30K)</label>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="caping" name="produk" value="bundle Pejuang">
-                </div>
-            </div>
-            <div class="carde">
-                <img src="imageBundle/CAPING.png" alt="Bundle eks">
-                <label for="capingPolos" class="carde-text">Caping Polos (27K)</label>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="capingPolos" name="produk" value="bundle Pejuang">
-                </div>
-            </div>
-
-            <div class="carde">
-                <img src="imageBundle/LANYARD.png" alt="Bundle eks">
-                <label for="lanyard" class="carde-text">Lanyard (22K)</label>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="lanyard" name="produk" value="bundle Pejuang">
-                </div>
-            </div>
-
-            <div class="carde">
-                <img src="imageBundle/DASI.png" alt="Bundle eks">
-                <label for="dasi" class="carde-text">Dasi (17K)</label>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="dasi" name="produk" value="bundle Pejuang">
-                </div>
-            </div>
-            <div class="carde">
-                <img src="imageBundle/TOTEBAG.png" alt="Bundle eks">
-                <label for="totebag" class="carde-text">Totebag (45K)</label>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="totebag" name="produk" value="bundle Pejuang">
-                </div>
-            </div>
-            <div class="carde">
-                <img src="imageBundle/STICKER.png" alt="Bundle eks">
-                <label for="sticker" class="carde-text">Sticker (8K)</label>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="sticker" name="produk" value="bundle Pejuang">
-                </div>
-            </div>
         </div>
     </div>
 
@@ -317,21 +233,10 @@
     
 
     <script type="module">
-        // Impor semua fungsi yang dibutuhkan, TERMASUK query, where, dan updateDoc
+        // Ganti dengan konfigurasi Firebase milikmu
+        // TAMBAHKAN 'collection' dan 'getDocs' pada baris import di bawah ini
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { 
-            getFirestore, 
-            doc, 
-            setDoc, 
-            serverTimestamp, 
-            collection, 
-            getDocs,
-            query,       // <-- FUNGSI PENTING
-            where,       // <-- FUNGSI PENTING
-            updateDoc    // <-- FUNGSI PENTING
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        
-        // Konfigurasi Firebase Anda
+        import { getFirestore, doc, setDoc, serverTimestamp, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         const firebaseConfig = {
             apiKey: "AIzaSyCqGTr_7aEWgbV2eZ4XG4qW6GBpZ1xwFhU",
             authDomain: "bakul-pionir.firebaseapp.com",
@@ -340,21 +245,19 @@
             messagingSenderId: "472630969608",
             appId: "1:472630969608:web:835bcb517c264f5392d8bd"
         };
-    
+
         // Inisialisasi Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-    
-        // Lampirkan SEMUA fungsi ke window agar bisa diakses oleh script.js
+
+        // Simpan db ke global agar bisa dipakai di script.js
         window.db = db;
         window.doc = doc;
         window.setDoc = setDoc;
         window.serverTimestamp = serverTimestamp;
+        // TAMBAHKAN DUA BARIS DI BAWAH INI
         window.collection = collection;
         window.getDocs = getDocs;
-        window.query = query;           // <-- BARIS INI WAJIB ADA
-        window.where = where;           // <-- BARIS INI WAJIB ADA
-        window.updateDoc = updateDoc;       // <-- BARIS INI WAJIB ADA
     </script>
     <script src="script.js"></script>
 </body>
