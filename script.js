@@ -265,6 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Define products with their prices
     const products = {
+        "Atribut Selebrasi": 65000,
         "Bundle Sultan Sejati": 85000,
         "Bundle Paket Lengkap": 60000,
         "Bundle Stylish": 75000,
@@ -282,6 +283,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize selected products object to track selections
 
     // Get all product checkboxes
+    const atributSelebrasi = document.getElementById('atributSelebrasi');
     const bundleSultan = document.getElementById('bundleSultan');
     const bundleLengkap = document.getElementById('bundleLengkap');
     const bundleStylish = document.getElementById('bundleStylish');
@@ -299,6 +301,13 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("Checkboxes found:", bundleSultan, bundleLengkap, bundleStylish, bundleEksekutifPionir);
     
     // Add event listeners to checkboxes
+    if (atributSelebrasi) {
+        atributSelebrasi.addEventListener('change', function() {
+            console.log("Selebrasi checkbox changed:", this.checked);
+            handleProductSelection("Atribut Selebrasi", this.checked);
+        });
+    }
+
     if (bundleSultan) {
         bundleSultan.addEventListener('change', function() {
             console.log("Sultan checkbox changed:", this.checked);
