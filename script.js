@@ -29,6 +29,7 @@ let selectedProducts = {};
 let isDiscountApplied = false;
 let appliedReferralCode = null;
 let discountPercentage = 0;
+let referralDocIdToUpdate = null;
 
 document.addEventListener("DOMContentLoaded", function () {
     const submitCard = document.getElementById("submitCard");
@@ -37,76 +38,96 @@ document.addEventListener("DOMContentLoaded", function () {
         checkReferralBtn.addEventListener('click', checkReferralCode);
     }
     submitCard.addEventListener("click", async function () {
-            const nama = document.getElementById("namaInput").value.trim();
-            const nomor = document.getElementById("nomorInput").value.trim();
-            const fakultas = document.getElementById("fakultas").value;
-            const domisili = document.getElementById("domisiliInput").value.trim();
-            const instagram = document.getElementById("instagramInput").value.trim();
-            const produkCheckboxes = document.querySelectorAll("input[name='produk']:checked");
-            const buktiBayarFile = document.getElementById("buktiBayarInput").files[0];
-            // HAPUS BARIS INI -> const referral = document.getElementById("referralInput").value.trim();
-
-            const produkDipilih = Object.entries(selectedProducts).map(([nama, detail]) => ({
+        const nama = document.getElementById("namaInput").value.trim();
+        const nomor = document.getElementById("nomorInput").value.trim();
+        const fakultas = document.getElementById("fakultas").value;
+        const domisili = document.getElementById("domisiliInput").value.trim();
+        const instagram = document.getElementById("instagramInput").value.trim();
+        const produkCheckboxes = document.querySelectorAll("input[name='produk']:checked");
+        const buktiBayarFile = document.getElementById("buktiBayarInput").files[0];
+    
+        const produkDipilih = Object.entries(selectedProducts).map(([nama, detail]) => ({
+            nama,
+            jumlah: detail.quantity,
+        }));
+    
+        if (!nama) {
+            showErrorPopup("Harap isi nama Anda.");
+            return;
+        }
+        else if (!nomor) {
+            showErrorPopup("Harap isi nomor Anda.");
+            return;
+        }
+        else if (!fakultas) {
+            showErrorPopup("Harap isi fakultas Anda.");
+            return;
+        }
+        else if (!domisili) {
+            showErrorPopup("Harap isi domisili Anda.");
+            return;
+        }
+        else if (produkDipilih.length === 0) {
+            showErrorPopup("Harap pilih minimal satu produk.");
+            return;
+        }
+        else if (!buktiBayarFile) {
+            showErrorPopup("Harap unggah bukti pembayaran Anda.");
+            return;
+        }
+    
+        try {
+            showLoading();
+            const buktiBayarURL = await uploadToImgBB(buktiBayarFile);
+            if (!buktiBayarURL) throw new Error("Gagal mengunggah gambar!");
+    
+            const orderRef = window.doc(window.db, "BakulPionirBatch2", nama + "_" + Date.now());
+            await window.setDoc(orderRef, {
                 nama,
-                jumlah: detail.quantity,
-            }));  
-
-            if (!nama) {
-                showErrorPopup("Harap isi nama Anda.");
-                return;
+                nomor,
+                fakultas,
+                domisili,
+                instagram: instagram,
+                produk: produkDipilih,
+                buktiPembayaran: buktiBayarURL,
+                kodeReferral: appliedReferralCode,
+                timestamp: window.serverTimestamp()
+            });
+    
+            // --- START OF MODIFICATION ---
+            // UPDATE THE REFERRAL CODE STATUS AFTER THE ORDER IS SUCCESSFULLY SENT
+            if (isDiscountApplied && referralDocIdToUpdate) {
+                try {
+                    const referralDocRef = window.doc(window.db, "KodeReferral", referralDocIdToUpdate);
+                    await window.updateDoc(referralDocRef, {
+                        TelahDigunakan: true
+                    });
+                    console.log("Referral code status updated successfully.");
+                } catch (referralError) {
+                    console.error("Failed to update referral code status:", referralError);
+                    // This won't stop the success popup, but logs the error.
+                }
             }
-            else if (!nomor) {
-                showErrorPopup("Harap isi nomor Anda.");
-                return;
-            }
-            else if (!fakultas) {
-                showErrorPopup("Harap isi fakultas Anda.");
-                return;
-            }
-            else if (!domisili) {
-                showErrorPopup("Harap isi domisili Anda.");
-                return;
-            }
-            else if (produkDipilih.length === 0) {
-                showErrorPopup("Harap pilih minimal satu produk.");
-                return;
-            }
-            else if (!buktiBayarFile) {
-                showErrorPopup("Harap unggah bukti pembayaran Anda.");
-                return;
-            }
-
-            try {
-                showLoading();
-                const buktiBayarURL = await uploadToImgBB(buktiBayarFile);
-                if (!buktiBayarURL) throw new Error("Gagal mengunggah gambar!");
-
-                const orderRef = window.doc(window.db, "BakulPionirBatch2", nama + "_" + Date.now());
-                await window.setDoc(orderRef, {
-                    nama,
-                    nomor,
-                    fakultas,
-                    domisili,
-                    instagram: instagram,
-                    produk: produkDipilih,
-                    buktiPembayaran: buktiBayarURL,
-                    // GANTI `kodeReferral: referral` DENGAN BARIS DI BAWAH INI
-                    kodeReferral: appliedReferralCode, 
-                    timestamp: window.serverTimestamp()
-                });
-                hideLoading();
-                showSuccessPopup("https://chat.whatsapp.com/G1WXDNLlPV09JvHrwlfFNS");
-                document.getElementById("namaInput").value = "";
-                document.getElementById("nomorInput").value = "";
-                document.getElementById("fakultas").value = "";
-                document.getElementById("domisiliInput").value = "";
-                document.getElementById("buktiBayarInput").value = "";
-                produkCheckboxes.forEach(checkbox => (checkbox.checked = false));
-            } catch (error) {
-                console.error("Terjadi kesalahan:", error);
-                alert("Gagal mengirim pesanan. Silakan coba lagi.");
-            }
-        });
+            // --- END OF MODIFICATION ---
+    
+            hideLoading();
+            showSuccessPopup("https://chat.whatsapp.com/G1WXDNLlPV09JvHrwlfFNS");
+            
+            // Resetting the form (location.reload() in closeSuccessPopup also handles this)
+            document.getElementById("namaInput").value = "";
+            document.getElementById("nomorInput").value = "";
+            document.getElementById("fakultas").value = "";
+            document.getElementById("domisiliInput").value = "";
+            document.getElementById("buktiBayarInput").value = "";
+            referralDocIdToUpdate = null; // <-- ADD THIS LINE to reset the ID
+            produkCheckboxes.forEach(checkbox => (checkbox.checked = false));
+    
+        } catch (error) {
+            console.error("Terjadi kesalahan:", error);
+            alert("Gagal mengirim pesanan. Silakan coba lagi.");
+            hideLoading(); // <-- Ensure loading is hidden on error
+        }
+    });
 
     async function uploadToImgBB(file) {
         const apiKey = "37d116ae15604008c48ca23ecd80123a"; // Ganti dengan API Key dari ImgBB
@@ -663,31 +684,35 @@ async function checkReferralCode() {
 
     showLoading();
     try {
-        // Handle special "BKL" codes first
         if (code.startsWith("BKL") && code.length >= 5) {
             const potentialDiscount = parseInt(code.substring(3, 5), 10);
-
-            // Check if the characters after BKL are valid numbers
             if (!isNaN(potentialDiscount) && potentialDiscount > 0) {
                 const referralQuery = window.query(
                     window.collection(window.db, "KodeReferral"),
                     window.where("Kode referralnya", "==", code),
-                    window.where("TelahDigunakan", "==", false) // Ensure the code has not been used
+                    window.where("TelahDigunakan", "==", false)
                 );
                 const querySnapshot = await window.getDocs(referralQuery);
 
                 if (!querySnapshot.empty) {
-                    const doc = querySnapshot.docs[0]; // Get the first (and only) document
-                    isDiscountApplied = true;
-                    appliedReferralCode = code;
-                    discountPercentage = potentialDiscount;
-
-                    // Mark the code as used in Firestore
+                    const doc = querySnapshot.docs[0];
+                    
+                    // --- START OF MODIFICATION ---
+                    // 1. SAVE THE DOCUMENT ID TO THE GLOBAL VARIABLE
+                    referralDocIdToUpdate = doc.id; 
+                    
+                    // 2. REMOVE THE FIRESTORE UPDATE FROM THIS FUNCTION
+                    /*
                     const docRef = window.doc(window.db, "KodeReferral", doc.id);
                     await window.updateDoc(docRef, {
                         TelahDigunakan: true
                     });
+                    */
+                    // --- END OF MODIFICATION ---
 
+                    isDiscountApplied = true;
+                    appliedReferralCode = code;
+                    discountPercentage = potentialDiscount;
                     statusEl.textContent = `Kode valid! Diskon ${discountPercentage}% telah diterapkan.`;
                     statusEl.className = 'success';
                     referralInput.disabled = true;
@@ -698,12 +723,11 @@ async function checkReferralCode() {
                     statusEl.className = 'error';
                 }
             } else {
-                 statusEl.textContent = "Format kode BKL tidak valid.";
-                 statusEl.className = 'error';
+                statusEl.textContent = "Format kode BKL tidak valid.";
+                statusEl.className = 'error';
             }
-
-        // Fallback to the original logic for other codes
         } else {
+             // Fallback for other codes (this part remains the same)
             const referralQuery = window.collection(window.db, "KodeReferral");
             const querySnapshot = await window.getDocs(referralQuery);
             let codeIsValid = false;
